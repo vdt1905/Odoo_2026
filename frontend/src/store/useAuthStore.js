@@ -9,10 +9,10 @@ const useAuthStore = create((set) => ({
     isLoading: false,
     error: null,
 
-    signup: async (name, email, password) => {
+    signup: async (name, email, password, role) => {
         set({ isLoading: true, error: null });
         try {
-            const response = await axios.post(`${API_URL}/signup`, { name, email, password });
+            const response = await axios.post(`${API_URL}/signup`, { name, email, password, role });
             localStorage.setItem('user', JSON.stringify(response.data));
             set({ user: response.data, isAuthenticated: true, isLoading: false });
         } catch (error) {

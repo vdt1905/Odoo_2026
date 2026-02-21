@@ -10,6 +10,7 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [role, setRole] = useState('Dispatcher'); // Default role
     const [validationError, setValidationError] = useState('');
     const { signup, error, isLoading, isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Signup = () => {
             return;
         }
 
-        await signup(name, email, password);
+        await signup(name, email, password, role);
     };
 
     useEffect(() => {
@@ -88,7 +89,7 @@ const Signup = () => {
                     <div className="absolute top-4 lg:top-8 left-4 lg:left-8 flex items-center z-20">
                         <Link to="/" className="flex items-center gap-2 text-white/70 hover:text-[#00ced1] transition-colors group px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10">
                             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                            
+
                         </Link>
                     </div>
 
@@ -162,6 +163,21 @@ const Signup = () => {
                                     className="w-full px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#ff512f]/50 focus:bg-white/10 transition-all font-medium backdrop-blur-sm shadow-inner text-sm"
                                     placeholder="••••••••••••"
                                 />
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="text-[13px] font-semibold text-slate-100 ml-1 drop-shadow-sm">Select Role</label>
+                                <select
+                                    required
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                    className="w-full px-4 py-2.5 rounded-full bg-[#0b1120] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#008b8b]/60 transition-all font-medium backdrop-blur-sm shadow-inner text-sm appearance-none"
+                                >
+                                    <option value="Manager">Fleet Manager</option>
+                                    <option value="Dispatcher">Dispatcher</option>
+                                    <option value="SafetyOfficer">Safety Officer</option>
+                                    <option value="FinancialAnalyst">Financial Analyst</option>
+                                </select>
                             </div>
 
                             <button

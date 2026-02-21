@@ -73,7 +73,7 @@ const Login = () => {
                     <div className="absolute top-4 lg:top-8 left-4 lg:left-8 flex items-center z-20">
                         <Link to="/" className="flex items-center gap-2 text-white/70 hover:text-[#00ced1] transition-colors group px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10">
                             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                            
+
                         </Link>
                     </div>
 
@@ -125,6 +125,12 @@ const Login = () => {
                                 />
                             </div>
 
+                            <div className="flex justify-end mt-1">
+                                <button type="button" className="text-[12px] text-[#00ced1] hover:text-[#008b8b] transition-colors font-medium cursor-pointer">
+                                    Forgot Password?
+                                </button>
+                            </div>
+
                             <button
                                 type="submit"
                                 disabled={isLoading}
@@ -134,11 +140,28 @@ const Login = () => {
                             </button>
                         </form>
 
-                        <div className="mt-4">
-
-
-
-
+                        <div className="mt-6 flex flex-col gap-3">
+                            <div className="flex items-center gap-3 w-full">
+                                <div className="h-px flex-1 bg-white/10"></div>
+                                <span className="text-[11px] font-semibold text-white/40 uppercase tracking-wider">Demo Login</span>
+                                <div className="h-px flex-1 bg-white/10"></div>
+                            </div>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => { setEmail('manager@fleetflow.com'); setPassword('demo123'); }}
+                                    className="flex-1 py-2 rounded-full border border-[#00ced1]/30 text-[#00ced1] text-[13px] font-semibold hover:bg-[#00ced1]/10 transition-colors"
+                                >
+                                    Login as Manager
+                                </button>
+                                <button
+                                    onClick={() => { setEmail('dispatcher@fleetflow.com'); setPassword('demo123'); }}
+                                    className="flex-1 py-2 rounded-full border border-[#00ced1]/30 text-[#00ced1] text-[13px] font-semibold hover:bg-[#00ced1]/10 transition-colors"
+                                >
+                                    Login as Dispatcher
+                                </button>
+                            </div>
+                        </div>
+                        <div className="mt-6">
                             <p className="text-center text-[14px] text-slate-200 font-medium">
                                 Don't have an account?{' '}
                                 <Link to="/signup" className="text-[#00ced1] hover:text-[#008b8b] transition-colors ml-1 font-semibold">
@@ -146,12 +169,13 @@ const Login = () => {
                                 </Link>
                             </p>
                         </div>
-
                     </div>
-                </div>
 
+                </div>
             </div>
+
         </div>
+        
     );
 };
 
