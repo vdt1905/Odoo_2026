@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
-import Sidebar from './Sidebar';
-import MagicBento from './MagicBento';
+import Sidebar from '../components/Sidebar';
+import MagicBento from '../components/MagicBento';
 import { Shield, ShieldAlert, Award, AlertTriangle, AlertOctagon, UserCheck, X } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 

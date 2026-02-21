@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
-import Sidebar from './Sidebar';
-import MagicContainer, { MagicCard } from './MagicBento';
+import Sidebar from '../components/Sidebar';
+import MagicContainer, { MagicCard } from '../components/MagicBento';
 import { Download, Droplet, TrendingUp, Activity, FileText } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ScatterChart, Scatter, ZAxis, Cell, Legend, ComposedChart } from 'recharts';
-import ExpenseDonutChart from './ExpenseDonutChart';
+import ExpenseDonutChart from '../components/ExpenseDonutChart';
 const Analytics = () => {
     const { isAuthenticated } = useAuthStore();
 

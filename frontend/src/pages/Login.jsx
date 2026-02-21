@@ -3,16 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import useAuthStore from '../store/useAuthStore';
 import { Facebook, Instagram, Twitter, ArrowLeft } from 'lucide-react';
-import PixelBlast from './PixelBlast';
+import PixelBlast from '../components/PixelBlast';
 
-const Signup = () => {
-    const [name, setName] = useState('');
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [role, setRole] = useState('Dispatcher'); // Default role
-    const [validationError, setValidationError] = useState('');
-    const { signup, error, isLoading, isAuthenticated } = useAuthStore();
+    const { login, error, isLoading, isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
 
     const leftSectionRef = useRef(null);
@@ -20,19 +16,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setValidationError(''); // Clear local errors
-
-        if (password.length < 6) {
-            setValidationError('Password must be at least 6 characters.');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            setValidationError('Passwords do not match.');
-            return;
-        }
-
-        await signup(name, email, password, role);
+        await login(email, password);
     };
 
     useEffect(() => {
@@ -94,19 +78,19 @@ const Signup = () => {
                     </div>
 
                     <div className="mt-12 lg:mt-0 lg:max-w-xl">
-                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight drop-shadow-md">Join Us!</h1>
+                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight drop-shadow-md">Welcome!</h1>
                         <div className="w-16 h-1 bg-slate-400 mb-4 rounded-full"></div>
 
                         <p className="text-slate-300 text-sm md:text-base mb-6 leading-relaxed font-light">
-                            Join the FleetFlow network to seamlessly integrate into our operational backbone. Choose your organizational role to receive scoped access automatically tailored to your responsibilities.
+                            FleetFlow connects your entire organization into a single point of truth. Authenticate to access your assigned domain and monitor the real-time state of your logistics operation.
                         </p>
 
                         <div className="mt-8 flex justify-center lg:justify-start relative">
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#00ced1]/20 rounded-full blur-[60px] pointer-events-none"></div>
                             <img
-                                src="/auth-img-2.png"
-                                alt="FleetFlow Network Sign Up"
-                                className="w-full max-w-sm md:max-w-md object-contain relative z-10 drop-shadow-[0_0_30px_rgba(0,206,209,0.15)] animate-[float_6s_ease-in-out_infinite_reverse]"
+                                src="/auth-img-1.png"
+                                alt="FleetFlow Login"
+                                className="w-full max-w-sm md:max-w-md object-contain relative z-10 drop-shadow-[0_0_30px_rgba(0,206,209,0.15)] animate-[float_5s_ease-in-out_infinite]"
                             />
                         </div>
 
@@ -114,31 +98,19 @@ const Signup = () => {
                 </div>
 
                 {/* Right Section - Form Card */}
-                <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end py-6 pointer-events-none mt-0 lg:mt-0">
+                <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end py-6 pointer-events-none mt-6 lg:mt-0">
                     <div ref={rightSectionRef} className="w-full max-w-[440px] bg-white/5 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-[2rem] p-6 lg:p-8 pointer-events-auto">
-                        <h2 className="text-2xl font-bold text-white text-center mb-4 drop-shadow-sm">Sign Up</h2>
+                        <h2 className="text-2xl font-bold text-white text-center mb-4 drop-shadow-sm">Sign In</h2>
 
-                        {(validationError || error) && (
+                        {error && (
                             <div className="mb-4 p-3 rounded-xl bg-red-500/10 text-red-400 text-sm text-center border border-red-500/20 shadow-sm font-medium">
-                                {validationError || error}
+                                {error}
                             </div>
                         )}
 
                         <form onSubmit={handleSubmit} className="space-y-3">
                             <div className="space-y-1.5">
-                                <label className="text-[13px] font-semibold text-slate-100 ml-1 drop-shadow-sm">Full Name</label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="w-full px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#008b8b]/60 focus:bg-white/10 transition-all font-medium backdrop-blur-sm shadow-inner text-sm"
-                                    placeholder="Enter your name"
-                                />
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <label className="text-[13px] font-semibold text-slate-100 ml-1 drop-shadow-sm">Email Address</label>
+                                <label className="text-[13px] font-semibold text-slate-100 ml-1 drop-shadow-sm">User Name</label>
                                 <input
                                     type="email"
                                     required
@@ -156,36 +128,15 @@ const Signup = () => {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#008b8b]/60 focus:bg-white/10 transition-all font-medium backdrop-blur-sm shadow-inner text-sm"
-                                    placeholder="••••••••••••"
-                                />
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <label className="text-[13px] font-semibold text-slate-100 ml-1 drop-shadow-sm">Confirm Password</label>
-                                <input
-                                    type="password"
-                                    required
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                     className="w-full px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#ff512f]/50 focus:bg-white/10 transition-all font-medium backdrop-blur-sm shadow-inner text-sm"
                                     placeholder="••••••••••••"
                                 />
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-[13px] font-semibold text-slate-100 ml-1 drop-shadow-sm">Select Role</label>
-                                <select
-                                    required
-                                    value={role}
-                                    onChange={(e) => setRole(e.target.value)}
-                                    className="w-full px-4 py-2.5 rounded-full bg-[#0b1120] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#008b8b]/60 transition-all font-medium backdrop-blur-sm shadow-inner text-sm appearance-none"
-                                >
-                                    <option value="Manager">Fleet Manager</option>
-                                    <option value="Dispatcher">Dispatcher</option>
-                                    <option value="SafetyOfficer">Safety Officer</option>
-                                    <option value="FinancialAnalyst">Financial Analyst</option>
-                                </select>
+                            <div className="flex justify-end mt-1">
+                                <button type="button" className="text-[12px] text-[#00ced1] hover:text-[#008b8b] transition-colors font-medium cursor-pointer">
+                                    Forgot Password?
+                                </button>
                             </div>
 
                             <button
@@ -197,25 +148,15 @@ const Signup = () => {
                             </button>
                         </form>
 
-                        <div className="mt-4">
-
-
-
-
-                            <p className="text-center text-[14px] text-slate-200 font-medium">
-                                Already have an account?{' '}
-                                <Link to="/login" className="text-[#00ced1] hover:text-[#008b8b] transition-colors ml-1 font-semibold">
-                                    Sign In
-                                </Link>
-                            </p>
-                        </div>
-
+                       
                     </div>
-                </div>
 
+                </div>
             </div>
+
         </div>
+
     );
 };
 
-export default Signup;
+export default Login;

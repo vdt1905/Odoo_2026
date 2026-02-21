@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Search, Monitor, Grid, LayoutTemplate, Image as ImageIcon, Sun, Layout } from 'lucide-react';
-import ColorBends from './ColorBends';
-import PixelCard from './PixelCard';
+import ColorBends from '../components/ColorBends';
+import PixelCard from '../components/PixelCard';
 
 gsap.registerPlugin(ScrollTrigger);
 

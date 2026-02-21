@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LandingPage from './components/LandingPage';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './components/Dashboard';
-import VehicleRegistry from './components/VehicleRegistry';
-import TripDispatcher from './components/TripDispatcher';
-import Maintenance from './components/Maintenance';
-import Expenses from './components/Expenses';
-import SafetyProfiles from './components/SafetyProfiles';
-import Analytics from './components/Analytics';
+import LandingPage from './pages/LandingPage';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import VehicleRegistry from './pages/VehicleRegistry';
+import TripDispatcher from './pages/TripDispatcher';
+import Maintenance from './pages/Maintenance';
+import Expenses from './pages/Expenses';
+import SafetyProfiles from './pages/SafetyProfiles';
+import Analytics from './pages/Analytics';
 import useAuthStore from './store/useAuthStore';
 
 import ProtectedRoute from './components/ProtectedRoute';

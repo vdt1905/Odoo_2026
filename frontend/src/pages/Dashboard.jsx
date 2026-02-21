@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import axios from 'axios';
 import useAuthStore from '../store/useAuthStore';
-import Sidebar from './Sidebar';
-import MagicContainer, { MagicCard } from './MagicBento';
+import Sidebar from '../components/Sidebar';
+import MagicContainer, { MagicCard } from '../components/MagicBento';
 import { Activity, AlertTriangle, Package, Truck, Filter, TrendingUp, Search, Plus, Send } from 'lucide-react';
 
 const Dashboard = () => {

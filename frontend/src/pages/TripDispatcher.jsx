@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
-import Sidebar from './Sidebar';
+import Sidebar from '../components/Sidebar';
 import { Send, MapPin, Truck, User, Clock, CheckCircle, XCircle, Search } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
-import LocationPickerModal from './LocationPickerModal';
+import LocationPickerModal from '../components/LocationPickerModal';
 
 const TripDispatcher = () => {
     const { isAuthenticated } = useAuthStore();
