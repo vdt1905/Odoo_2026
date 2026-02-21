@@ -28,7 +28,12 @@ export const getDashboardStats = async (req, res) => {
             id: t._id.toString().substring(0, 8).toUpperCase(),
             vehicle: t.vehicle?.name || 'Unknown',
             driver: t.driver?.name || 'Unknown',
+            driver: t.driver?.name || 'Unknown',
             status: t.status,
+            origin: t.origin,
+            destination: t.destination,
+            cargoWeight: t.cargoWeight,
+            estimatedFuelCost: t.estimatedFuelCost,
             createdAt: t.createdAt
         }));
 

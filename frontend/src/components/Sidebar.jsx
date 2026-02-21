@@ -18,7 +18,7 @@ const Sidebar = () => {
         { name: 'Maintenance', path: '/maintenance', icon: PenTool, roles: ['Manager'] },
         { name: 'Expenses', path: '/expenses', icon: Receipt, roles: ['Manager', 'FinancialAnalyst'] },
         { name: 'Safety Profiles', path: '/safety', icon: Shield, roles: ['SafetyOfficer'] },
-        { name: 'Analytics', path: '/analytics', icon: Activity, roles: ['FinancialAnalyst'] },
+        { name: 'Analytics', path: '/analytics', icon: Activity, roles: ['FinancialAnalyst', 'Manager'] },
     ];
 
     return (

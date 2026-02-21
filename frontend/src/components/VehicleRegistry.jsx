@@ -285,6 +285,13 @@ const VehicleRegistry = () => {
                                         <option value="Truck">Truck</option>
                                         <option value="Van">Van</option>
                                         <option value="Bike">Bike</option>
+                                        <option value="Car">Car</option>
+                                        <option value="Pickup">Pickup</option>
+                                        <option value="Trailer">Trailer</option>
+                                        <option value="Minivan">Minivan</option>
+                                        <option value="Box Truck">Box Truck</option>
+                                        <option value="Reefer">Reefer</option>
+                                        <option value="Flatbed">Flatbed</option>
                                     </select>
                                 </div>
 

@@ -53,10 +53,44 @@ const Analytics = () => {
         if (!data) return;
 
         let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Month,Revenue,Fuel Cost,Maintenance,Net Profit\n";
+        // 1. Fleet KPI Summary
+        csvContent += "=== FLEET KPI SUMMARY ===\n";
+        csvContent += "Metric,Value\n";
+        csvContent += `Total Revenue,${data.kpis.totalRevenue}\n`;
+        csvContent += `Total Fuel Cost,${data.kpis.totalFuelCost}\n`;
+        csvContent += `Maintenance Cost,${data.kpis.maintenanceCost}\n`;
+        csvContent += `Net Profit,${data.kpis.netProfit}\n`;
+        csvContent += `Fleet ROI (%),${data.kpis.fleetROI}\n\n`;
 
+        // 2. Monthly Summary
+        csvContent += "=== MONTHLY SUMMARY ===\n";
+        csvContent += "Month,Revenue,Fuel Cost,Maintenance,Net Profit\n";
         data.monthlySummary.forEach(row => {
             csvContent += `${row.month},${row.revenue},${row.fuelCost},${row.maintenance},${row.netProfit}\n`;
+        });
+        csvContent += "\n";
+
+        // 3. Vehicle ROI Analysis
+        csvContent += "=== VEHICLE ROI ANALYSIS ===\n";
+        csvContent += "Vehicle ID,Vehicle Name,Total Cost,Total Revenue\n";
+        data.charts.vehicleROI.forEach(row => {
+            csvContent += `${row.vehicleId},${row.vehicle},${row.totalCost},${row.revenue}\n`;
+        });
+        csvContent += "\n";
+
+        // 4. Top Costliest Vehicles
+        csvContent += "=== TOP COSTLIEST VEHICLES ===\n";
+        csvContent += "Vehicle Name,Total Expense\n";
+        data.charts.costliestVehicles.forEach(row => {
+            csvContent += `${row.name},${row.cost}\n`;
+        });
+        csvContent += "\n";
+
+        // 5. Maintenance Downtime
+        csvContent += "=== MAINTENANCE DOWNTIME ===\n";
+        csvContent += "Vehicle Name,Estimated Days Lost\n";
+        data.charts.downtimeChart.forEach(row => {
+            csvContent += `${row.name},${row.daysLost}\n`;
         });
 
         const encodedUri = encodeURI(csvContent);
@@ -144,20 +178,7 @@ const Analytics = () => {
                         </MagicCard>
 
                         {/* Utilization Rate */}
-                        <MagicCard className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]" enableStars={true}>
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#00ced1]/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
-                                <Activity size={100} className="text-[#00ced1]" />
-                            </div>
-                            <div className="relative z-10">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="p-3 bg-[#00ced1]/10 rounded-[1.2rem] text-[#00ced1] border border-white/10 backdrop-blur-md shrink-0 flex items-center justify-center"><Activity size={20} /></div>
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10">Capacity</span>
-                                </div>
-                                <h3 className="text-[2.5rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)] mb-1">{data.kpis.utilizationRate}%</h3>
-                                <p className="text-sm font-semibold text-white/60 tracking-wider">Utilization Rate</p>
-                            </div>
-                        </MagicCard>
+
 
                     </MagicContainer>
 

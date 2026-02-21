@@ -190,8 +190,9 @@ const Dashboard = () => {
                                         <thead className="bg-black/20 text-[#00ced1] border-b border-white/[0.05]">
                                             <tr>
                                                 <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Trip ID</th>
-                                                <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Vehicle</th>
-                                                <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Driver</th>
+                                                <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Vehicle & Driver</th>
+                                                <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Route (Origin &rarr; Dest)</th>
+                                                <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Logistics (Cargo / Fuel)</th>
                                                 <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80 text-right">Status</th>
                                             </tr>
                                         </thead>
@@ -207,15 +208,31 @@ const Dashboard = () => {
                                                         <span className="font-mono text-white/50 font-medium">#{trip.id}</span>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="p-1.5 bg-white/5 rounded border border-white/10">
-                                                                <Truck size={14} className="text-white/60" />
+                                                        <div className="flex flex-col gap-1">
+                                                            <div className="flex items-center gap-2">
+                                                                <Truck size={12} className="text-[#00ced1]/70" />
+                                                                <span className="font-bold text-slate-200">{trip.vehicle}</span>
                                                             </div>
-                                                            <span className="font-bold text-slate-200">{trip.vehicle}</span>
+                                                            <div className="text-xs text-slate-400 font-medium ml-5">{trip.driver}</div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-4 text-slate-300 font-medium">
-                                                        {trip.driver}
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex flex-col gap-1">
+                                                            <div className="text-emerald-400 font-medium text-xs flex items-center gap-1.5 w-32 sm:w-48 xl:w-64 truncate" title={trip.origin || 'HQ'}>
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></div>
+                                                                {trip.origin || 'HQ'}
+                                                            </div>
+                                                            <div className="text-rose-400 font-medium text-xs flex items-center gap-1.5 w-32 sm:w-48 xl:w-64 truncate" title={trip.destination}>
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></div>
+                                                                {trip.destination}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-slate-300 font-bold text-sm">{trip.cargoWeight} kg</span>
+                                                            <span className="text-slate-500 font-medium text-xs">Est. Fuel: ₹{trip.estimatedFuelCost}</span>
+                                                        </div>
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
                                                         <span className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-bold tracking-wider border ${trip.status === 'Completed' ? 'bg-[#00ced1]/10 text-[#00ced1] border-[#00ced1]/20' :
