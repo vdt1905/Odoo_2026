@@ -18,10 +18,12 @@ const SafetyProfiles = () => {
     const [selectedDriver, setSelectedDriver] = useState(null);
     const [formData, setFormData] = useState({
         safetyScore: '',
+        complaintsCount: '',
         status: ''
     });
     const [addFormData, setAddFormData] = useState({
         name: '',
+        licenseNumber: '',
         licenseExpiry: ''
     });
 
@@ -62,6 +64,7 @@ const SafetyProfiles = () => {
         setSelectedDriver(driver);
         setFormData({
             safetyScore: driver.safetyScore,
+            complaintsCount: driver.complaintsCount,
             status: driver.status
         });
         setIsEditModalOpen(true);
@@ -89,7 +92,7 @@ const SafetyProfiles = () => {
                 headers: { Authorization: `Bearer ${storedUser?.token}` }
             });
             setIsAddModalOpen(false);
-            setAddFormData({ name: '', licenseExpiry: '' });
+            setAddFormData({ name: '', licenseNumber: '', licenseExpiry: '' });
             fetchData();
         } catch (error) {
             alert(error.response?.data?.message || 'Error adding driver');
@@ -180,11 +183,13 @@ const SafetyProfiles = () => {
                             <table className="w-full text-left text-sm whitespace-nowrap">
                                 <thead className="bg-[#0b1120] text-slate-400 border-b border-white/10">
                                     <tr>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Driver Profile</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Status</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Performance</th>
+                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Name</th>
+                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">License#</th>
+                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Expiry</th>
+                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Completion Rate</th>
                                         <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Safety Score</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">License Expiry</th>
+                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Complaints</th>
+                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Duty Status</th>
                                         <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase text-right">Actions</th>
                                     </tr>
                                 </thead>
@@ -203,55 +208,58 @@ const SafetyProfiles = () => {
                                         drivers.map((driver) => {
                                             const expiringSoon = isExpiringSoon(driver.licenseExpiry);
                                             const expired = isExpired(driver.licenseExpiry);
-                                            const highRisk = driver.safetyScore < 75 || expired || driver.status === 'Suspended';
+                                            const highRisk = driver.safetyScore < 75 || expired || driver.status === 'SUSPENDED' || driver.status === 'LOCKED';
 
                                             return (
                                                 <tr key={driver._id} className={`hover:bg-white/[0.02] transition-colors group ${highRisk ? 'bg-rose-500/[0.02]' : ''}`}>
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center gap-3">
-                                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${highRisk ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-white/5 border-white/10 text-white/50'}`}>
-                                                                <UserCheck size={18} />
+                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center border ${highRisk ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-white/5 border-white/10 text-white/50'}`}>
+                                                                <UserCheck size={14} />
                                                             </div>
-                                                            <div>
-                                                                <p className={`font-bold transition-colors ${highRisk ? 'text-rose-100 group-hover:text-white' : 'text-slate-200 group-hover:text-white'}`}>{driver.name}</p>
-                                                                <p className="text-xs text-slate-500 font-medium">ID: {driver._id.toString().substring(18)}</p>
-                                                            </div>
+                                                            <p className={`font-bold transition-colors ${highRisk ? 'text-rose-100 group-hover:text-white' : 'text-slate-200 group-hover:text-white'}`}>{driver.name}</p>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span className={`inline-flex px-2 py-1 rounded text-xs font-bold uppercase tracking-wider ${driver.status === 'On Duty' ? 'text-emerald-400 bg-emerald-400/10' :
-                                                            driver.status === 'Suspended' ? 'text-rose-400 bg-rose-400/10' : 'text-slate-400 bg-slate-400/10'
-                                                            }`}>
-                                                            {driver.status}
-                                                        </span>
+                                                        <span className="font-mono text-slate-300 font-medium">{driver.licenseNumber || 'N/A'}</span>
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div className="flex flex-col">
-                                                            <span className="font-bold text-slate-200">
-                                                                {driver.totalTripsAssigned > 0 ? `${Math.round((driver.tripsCompleted / driver.totalTripsAssigned) * 100)}%` : 'N/A'}
-                                                            </span>
-                                                            <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
-                                                                ({driver.tripsCompleted}/{driver.totalTripsAssigned} Trips)
+                                                            <div className="flex items-center gap-2">
+                                                                <span className={`font-medium ${expired ? 'text-rose-400' : expiringSoon ? 'text-amber-400' : 'text-slate-300'}`}>
+                                                                    {new Date(driver.licenseExpiry).toLocaleDateString(undefined, { month: 'short', year: '2-digit' })}
+                                                                </span>
+                                                                {(expired || expiringSoon) && <AlertTriangle size={14} className={expired ? 'text-rose-400' : 'text-amber-400'} />}
+                                                            </div>
+                                                            {expired && <div className="text-[10px] text-rose-400 uppercase font-bold mt-0.5 tracking-wider">Expired</div>}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <span className="font-bold text-slate-200">
+                                                            {driver.totalTripsAssigned > 0 ? `${Math.round((driver.tripsCompleted / driver.totalTripsAssigned) * 100)}%` : 'N/A'}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className={`text-base font-bold font-mono ${getScoreColor(driver.safetyScore)}`}>
+                                                                {driver.safetyScore}%
                                                             </span>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className={`text-lg font-bold font-mono ${getScoreColor(driver.safetyScore)}`}>
-                                                                {driver.safetyScore}
-                                                            </span>
-                                                            {driver.safetyScore < 75 && <ShieldAlert size={16} className="text-rose-400" />}
-                                                        </div>
+                                                        <span className={`font-bold text-base ${driver.complaintsCount > 0 ? 'text-rose-400' : 'text-slate-400'}`}>
+                                                            {driver.complaintsCount}
+                                                        </span>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className={`font-medium ${expired ? 'text-rose-400' : expiringSoon ? 'text-amber-400' : 'text-slate-300'}`}>
-                                                                {new Date(driver.licenseExpiry).toLocaleDateString()}
-                                                            </span>
-                                                            {(expired || expiringSoon) && <AlertTriangle size={14} className={expired ? 'text-rose-400' : 'text-amber-400'} />}
-                                                        </div>
-                                                        {expired && <div className="text-[10px] text-rose-400 uppercase font-bold mt-0.5 tracking-wider">Expired</div>}
-                                                        {expiringSoon && !expired && <div className="text-[10px] text-amber-400 uppercase font-bold mt-0.5 tracking-wider">Expiring Soon</div>}
+                                                        <span className={`inline-flex px-2 py-1 rounded text-[11px] font-bold uppercase tracking-wider ${driver.status === 'ON_DUTY' ? 'text-emerald-400 bg-emerald-400/10 border border-emerald-400/20' :
+                                                            driver.status === 'BREAK' ? 'text-amber-400 bg-amber-400/10 border border-amber-400/20' :
+                                                                driver.status === 'SUSPENDED' ? 'text-rose-400 bg-rose-400/10 border border-rose-400/20' :
+                                                                    driver.status === 'LOCKED' ? 'text-purple-400 bg-purple-400/10 border border-purple-400/20' :
+                                                                        'text-slate-400 bg-slate-400/10 border border-slate-400/20'
+                                                            }`}>
+                                                            {driver.status.replace('_', ' ')}
+                                                        </span>
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
                                                         <button
@@ -302,6 +310,18 @@ const SafetyProfiles = () => {
                             </div>
 
                             <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1">License Number</label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={addFormData.licenseNumber}
+                                    onChange={e => setAddFormData({ ...addFormData, licenseNumber: e.target.value })}
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm font-medium transition-all placeholder:text-slate-500"
+                                    placeholder="DL-XYZ-123"
+                                />
+                            </div>
+
+                            <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1">License Expiration Date</label>
                                 <input
                                     type="date"
@@ -339,7 +359,6 @@ const SafetyProfiles = () => {
                         </div>
 
                         <form onSubmit={handleFormSubmit} className="p-6 space-y-5">
-
                             <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1">Modify Safety Score (0-100)</label>
                                 <input
@@ -353,16 +372,30 @@ const SafetyProfiles = () => {
                             </div>
 
                             <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1">Complaints Count</label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    value={formData.complaintsCount}
+                                    onChange={e => setFormData({ ...formData, complaintsCount: Number(e.target.value) })}
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 text-xl font-bold font-mono text-center transition-all"
+                                />
+                            </div>
+
+                            <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1">Administrative Status</label>
                                 <select
                                     required
+                                    disabled={selectedDriver?.status === 'LOCKED'}
                                     value={formData.status}
                                     onChange={e => setFormData({ ...formData, status: e.target.value })}
-                                    className="w-full px-4 py-2.5 rounded-xl bg-[#0b1120] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 text-sm transition-all appearance-none"
+                                    className="w-full px-4 py-2.5 rounded-xl bg-[#0b1120] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-rose-500/50 text-sm transition-all appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <option value="On Duty">On Duty (Available)</option>
-                                    <option value="Off Duty">Off Duty (Not Working)</option>
-                                    <option value="Suspended">Suspended (Restricted)</option>
+                                    <option value="ON_DUTY">ON DUTY</option>
+                                    <option value="BREAK">BREAK</option>
+                                    <option value="OFF_DUTY">OFF DUTY</option>
+                                    <option value="SUSPENDED">SUSPENDED</option>
+                                    {selectedDriver?.status === 'LOCKED' && <option value="LOCKED">LOCKED (License Expired)</option>}
                                 </select>
                             </div>
 
@@ -376,7 +409,7 @@ const SafetyProfiles = () => {
                 </div>
             )}
 
-        </div>
+        </div >
     );
 };
 

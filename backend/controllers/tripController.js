@@ -33,8 +33,8 @@ export const createTrip = async (req, res) => {
             return res.status(404).json({ message: 'Driver not found' });
         }
 
-        if (driverDoc.status === 'Suspended') {
-            return res.status(400).json({ message: 'Driver is currently suspended and cannot be assigned.' });
+        if (driverDoc.status === 'SUSPENDED' || driverDoc.status === 'LOCKED') {
+            return res.status(400).json({ message: 'Driver is currently restricted (Suspended or Locked) and cannot be assigned.' });
         }
 
         const today = new Date();
@@ -86,7 +86,7 @@ export const updateTripStatus = async (req, res) => {
         if (status === 'Dispatched' && oldStatus !== 'Dispatched') {
             await Vehicle.findByIdAndUpdate(trip.vehicle, { status: 'On Trip' });
             await Driver.findByIdAndUpdate(trip.driver, {
-                status: 'On Duty',
+                status: 'ON_DUTY',
                 isAvailableForDispatch: false,
                 $inc: { totalTripsAssigned: 1 }
             });
@@ -100,7 +100,7 @@ export const updateTripStatus = async (req, res) => {
             const isExpired = new Date(driverData.licenseExpiry) < today;
 
             await Driver.findByIdAndUpdate(trip.driver, {
-                status: 'On Duty',
+                status: 'ON_DUTY',
                 isAvailableForDispatch: !isExpired && driverData.safetyScore >= 0,
                 $inc: { tripsCompleted: 1 }
             });
@@ -113,7 +113,7 @@ export const updateTripStatus = async (req, res) => {
             const isExpired = new Date(driverData.licenseExpiry) < today;
 
             await Driver.findByIdAndUpdate(trip.driver, {
-                status: 'On Duty',
+                status: 'ON_DUTY',
                 isAvailableForDispatch: !isExpired && driverData.safetyScore >= 0
             });
         }

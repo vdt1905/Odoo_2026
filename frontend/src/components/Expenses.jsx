@@ -178,7 +178,7 @@ const Expenses = () => {
                                         expenses.map(exp => (
                                             <tr key={exp._id} className="hover:bg-white/[0.02] transition-colors group">
                                                 <td className="px-6 py-4 font-mono text-slate-300 font-medium">#{exp.trip?._id.substring(0, 8).toUpperCase()}</td>
-                                                <td className="px-6 py-4 font-bold text-white">{exp.driver?.firstName} {exp.driver?.lastName}</td>
+                                                <td className="px-6 py-4 font-bold text-white">{exp.driver?.name}</td>
                                                 <td className="px-6 py-4 text-slate-400">{exp.distance} km</td>
                                                 <td className="px-6 py-4 font-mono text-slate-400">${exp.fuelCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                                 <td className="px-6 py-4 font-mono text-slate-400">${exp.miscCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
@@ -224,9 +224,9 @@ const Expenses = () => {
                                     <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1">Trip ID</label>
                                     <select required value={formData.trip} onChange={e => setFormData({ ...formData, trip: e.target.value })} className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-sm transition-all appearance-none" style={{ backgroundColor: '#0b1120' }}>
                                         <option value="" disabled>-- Select Trip --</option>
-                                        {trips.map(t => (
+                                        {trips.filter(t => t.status === 'Dispatched' || t.status === 'Completed').map(t => (
                                             <option key={t._id} value={t._id}>
-                                                #{t._id.substring(0, 8).toUpperCase()} - {t.origin} to {t.destination}
+                                                #{t._id.substring(0, 8).toUpperCase()} - {t.origin} to {t.destination} ({t.status})
                                             </option>
                                         ))}
                                     </select>
@@ -237,7 +237,7 @@ const Expenses = () => {
                                     <input
                                         type="text"
                                         disabled
-                                        value={trips.find(t => t._id === formData.trip)?.driver ? `${trips.find(t => t._id === formData.trip).driver.firstName} ${trips.find(t => t._id === formData.trip).driver.lastName}` : '-- Auto-filled --'}
+                                        value={trips.find(t => t._id === formData.trip)?.driver ? trips.find(t => t._id === formData.trip).driver.name : '-- Auto-filled --'}
                                         className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-400 text-sm opacity-70 cursor-not-allowed"
                                     />
                                 </div>

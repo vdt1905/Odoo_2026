@@ -5,6 +5,15 @@ import Driver from '../models/Driver.js';
 // @access  Private (Manager, Dispatcher, SafetyOfficer)
 export const getDrivers = async (req, res) => {
     try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Auto-lock drivers whose license has expired
+        await Driver.updateMany(
+            { licenseExpiry: { $lt: today }, status: { $ne: 'LOCKED' } },
+            { $set: { status: 'LOCKED', isAvailableForDispatch: false } }
+        );
+
         const drivers = await Driver.find({});
         res.status(200).json(drivers);
     } catch (error) {
@@ -16,30 +25,39 @@ export const getDrivers = async (req, res) => {
 // @route   POST /api/drivers
 // @access  Private (Manager, SafetyOfficer)
 export const addDriver = async (req, res) => {
-    const { name, licenseExpiry, status, safetyScore } = req.body;
+    const { name, licenseNumber, licenseExpiry, status, safetyScore, complaintsCount } = req.body;
 
-    // Optional basic validation
-    if (!name || !licenseExpiry) {
-        return res.status(400).json({ message: 'Please provide all required fields' });
+    if (!name || !licenseNumber || !licenseExpiry) {
+        return res.status(400).json({ message: 'Please provide all required fields (Name, License Number, Expiry)' });
     }
 
     try {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const isExpired = new Date(licenseExpiry) < today;
-        const initialStatus = status || 'On Duty';
-        const isAvailable = initialStatus === 'On Duty' && !isExpired && (safetyScore || 100) >= 0; // Simple logic as requested
+
+        let finalStatus = status || 'OFF_DUTY';
+        if (isExpired) {
+            finalStatus = 'LOCKED';
+        }
+
+        const isAvailable = finalStatus === 'ON_DUTY' && !isExpired && (safetyScore || 100) >= 0;
 
         const driver = await Driver.create({
             name,
+            licenseNumber,
             licenseExpiry,
-            status: initialStatus,
+            status: finalStatus,
             safetyScore: safetyScore || 100,
+            complaintsCount: complaintsCount || 0,
             isAvailableForDispatch: isAvailable
         });
 
         res.status(201).json(driver);
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ message: 'License Number already exists.' });
+        }
         res.status(500).json({ message: 'Failed to create driver', error: error.message });
     }
 };
@@ -48,22 +66,34 @@ export const addDriver = async (req, res) => {
 // @route   PUT /api/drivers/:id
 // @access  Private (Manager, SafetyOfficer)
 export const updateDriver = async (req, res) => {
-    const { name, licenseExpiry, status, safetyScore } = req.body;
+    const { name, licenseNumber, licenseExpiry, status, safetyScore, complaintsCount } = req.body;
 
     try {
         const driver = await Driver.findById(req.params.id);
 
         if (driver) {
             driver.name = name || driver.name;
+            if (licenseNumber) driver.licenseNumber = licenseNumber;
             driver.licenseExpiry = licenseExpiry || driver.licenseExpiry;
-            driver.status = status || driver.status;
             driver.safetyScore = safetyScore !== undefined ? safetyScore : driver.safetyScore;
+            driver.complaintsCount = complaintsCount !== undefined ? complaintsCount : driver.complaintsCount;
 
-            // Recalculate strict DB boolean
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const isExpired = new Date(driver.licenseExpiry) < today;
-            driver.isAvailableForDispatch = (driver.status === 'On Duty' && !isExpired);
+
+            if (isExpired) {
+                driver.status = 'LOCKED';
+            } else if (status) {
+                driver.status = status;
+                // If status was strictly passed as LOCKED but license is not expired, revert it to OFF_DUTY or accept the new valid status.
+                if (driver.status === 'LOCKED') {
+                    driver.status = 'OFF_DUTY';
+                }
+            }
+
+            // Recalculate strict DB boolean
+            driver.isAvailableForDispatch = (driver.status === 'ON_DUTY' && !isExpired);
 
             const updatedDriver = await driver.save();
             res.json(updatedDriver);
@@ -71,6 +101,9 @@ export const updateDriver = async (req, res) => {
             res.status(404).json({ message: 'Driver not found' });
         }
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ message: 'License Number already exists.' });
+        }
         res.status(500).json({ message: 'Failed to update driver', error: error.message });
     }
 };

@@ -4,9 +4,9 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Middleware to restrict access to Dispatcher roles
+// Middleware to restrict access to Dispatcher roles (but allow read for Manager/FinancialAnalyst viewing Expenses)
 const dispatchRole = (req, res, next) => {
-    if (req.user && req.user.role === 'Dispatcher') {
+    if (req.user && (req.user.role === 'Dispatcher' || req.user.role === 'Manager' || req.user.role === 'FinancialAnalyst')) {
         next();
     } else {
         res.status(403).json({ message: 'Not authorized for Dispatch operations' });

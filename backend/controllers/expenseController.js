@@ -31,6 +31,10 @@ export const addExpense = async (req, res) => {
             return res.status(404).json({ message: 'Trip not found' });
         }
 
+        if (tripDoc.status === 'Draft' || tripDoc.status === 'Cancelled') {
+            return res.status(400).json({ message: 'Expenses can only be logged for Dispatched or Completed trips.' });
+        }
+
         const expStatus = status || 'Pending';
         const calcTotalCost = Number(fuelCost || 0) + Number(miscCost || 0);
 
