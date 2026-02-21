@@ -110,15 +110,14 @@ const LandingPage = () => {
             <header className="fixed top-0 w-full z-50 bg-[#0f1115]/80 backdrop-blur-md border-b border-white/5">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <div className="text-teal-400 font-black text-2xl tracking-wider uppercase">
-                        HYKROX
-                        <div className="text-[10px] text-teal-400/60 -mt-1 tracking-widest font-normal">unique designs</div>
+                        FLEETFLOW
+                        <div className="text-[10px] text-teal-400/60 -mt-1 tracking-widest font-normal">logistics & management</div>
                     </div>
 
                     <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide text-gray-400">
                         <a href="#home" className="text-teal-400 transition-colors">HOME</a>
-
-                        <a href="#services" className="hover:text-white transition-colors">SERVICES</a>
-                        <a href="#about" className="hover:text-white transition-colors">ABOUT US</a>
+                        <a href="#features" className="hover:text-white transition-colors">FEATURES</a>
+                        <a href="#how-it-works" className="hover:text-white transition-colors">HOW IT WORKS</a>
 
 
                         <div className="flex items-center gap-4 ml-6 pl-6 border-l border-white/10">
@@ -142,152 +141,176 @@ const LandingPage = () => {
 
                     <div className="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-12 z-10 relative">
                         <div ref={heroTextRef} className="flex-1 space-y-6">
-                            <div className="text-teal-400 text-sm font-bold tracking-widest uppercase">
-                                CREATIVE DESIGNER
+                            <div className="text-teal-400 text-sm font-bold tracking-widest uppercase flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></div>
+                                FLEET MANAGEMENT SYSTEM
                             </div>
                             <h1 className="text-5xl md:text-7xl font-bold leading-tight uppercase relative">
-                                WE ARE <span className="text-teal-400">CREATIVE</span><br />
-                                DESIGNERS
+                                OPTIMIZE <span className="text-teal-400">EVERY</span><br />
+                                DISPATCH
                             </h1>
                             <p className="text-gray-400 max-w-lg text-sm md:text-base leading-relaxed">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                FleetFlow empowers your entire logistics operation. From real-time route assignment to deep operational analytics, seamlessly connect Dispatchers, Managers, Safety Officers, and Financial Analysts into one synchronized platform.
                             </p>
+                            <div className="pt-4 flex gap-4">
+                                <Link to="/signup" className="bg-teal-400 hover:bg-teal-300 text-gray-900 font-bold px-8 py-3 rounded-full text-sm transition-colors tracking-widest shadow-[0_0_15px_rgba(45,212,191,0.3)] hover:shadow-[0_0_20px_rgba(45,212,191,0.5)]">
+                                    GET STARTED
+                                </Link>
+                                <a href="#how-it-works" className="border border-white/20 hover:bg-white/5 text-white font-bold px-8 py-3 rounded-full text-sm transition-colors tracking-widest">
+                                    SEE HOW IT WORKS
+                                </a>
+                            </div>
                         </div>
 
                         <div ref={heroImageRef} className="flex-1 w-full flex justify-center md:justify-end">
-                            <div className="relative w-72 h-[450px] md:w-80 md:h-[500px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(45,212,191,0.2)]">
+                            <div className="relative w-full max-w-lg h-auto aspect-square flex items-center justify-center">
+                                {/* The 3D Truck Image */}
                                 <img
-                                    src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
-                                    alt="Creative Portrait"
-                                    className="w-full h-full object-cover object-center"
+                                    src="/delivery-truck.png"
+                                    alt="3D Delivery Truck"
+                                    className="w-[120%] h-auto object-contain relative z-10 drop-shadow-2xl animate-[float_6s_ease-in-out_infinite]"
                                 />
-                                <div className="absolute inset-0 bg-teal-500/10 mix-blend-overlay"></div>
-                                <div className="absolute -right-20 -top-20 w-64 h-64 bg-teal-400/30 rounded-full blur-[80px]"></div>
-                                <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-teal-400/20 rounded-full blur-[80px]"></div>
+                                {/* Glow Effects */}
+                                <div className="absolute inset-0 bg-teal-500/10 mix-blend-overlay rounded-full blur-[100px] z-0"></div>
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-teal-400/20 rounded-full blur-[80px] z-0"></div>
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-white/10 rounded-full z-0 animate-[spin_10s_linear_infinite]"></div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Services Section */}
-                <section id="services" ref={servicesRef} className="relative min-h-screen flex items-center py-20">
+                {/* Features Section */}
+                <section id="features" ref={servicesRef} className="relative min-h-screen flex items-center py-20">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[50vh] font-bold text-white/[0.02] select-none pointer-events-none z-0 tracking-tighter">
-                        Y
+                        CORE
                     </div>
 
                     <div className="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-16 z-10 relative">
                         <div ref={servicesTextRef} className="flex-1 space-y-6">
                             <div className="text-teal-400 text-sm font-bold tracking-widest uppercase">
-                                OUR SERVICES
+                                KEY FEATURES
                             </div>
                             <h2 className="text-5xl md:text-6xl font-bold uppercase">
-                                WHAT WE <span className="text-teal-400">DO?</span>
+                                SILOED <span className="text-teal-400">DOMAINS</span>
                             </h2>
-                            <p className="text-gray-400 max-w-lg text-sm leading-relaxed">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                            <p className="text-gray-400 max-w-lg text-sm leading-relaxed mb-6">
+                                The platform automatically scopes access control via rigid RBAC mappings—ensuring users naturally only interact with their explicitly assigned domain.
                             </p>
-                            <p className="text-gray-400 max-w-lg text-sm leading-relaxed pb-4">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                            </p>
-                            <button className="bg-teal-400 hover:bg-teal-300 text-gray-900 font-bold px-8 py-3 rounded text-sm transition-colors tracking-widest">
-                                VIEW ALL
-                            </button>
+
+                            <a href="#how-it-works" className="mt-6 inline-block bg-teal-400 hover:bg-teal-300 text-gray-900 font-bold px-8 py-3 rounded text-sm transition-colors tracking-widest">
+                                HOW IT WORKS
+                            </a>
                         </div>
 
                         <div ref={servicesCardsRef} className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {/* Card 1 */}
                             <PixelCard variant="blue" className="w-full h-auto !aspect-auto bg-[#1a1d24]/50 backdrop-blur-sm border-white/5 rounded-xl hover:bg-[#1a1d24] transition-all group">
                                 <div className="p-8 flex flex-col items-center text-center">
                                     <div className="text-teal-400 mb-4 group-hover:scale-110 transition-transform">
                                         <Monitor size={40} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="font-bold text-lg mb-2">Website Design</h3>
-                                    <p className="text-gray-500 text-xs relative z-10">We can design for you a website and we can upload them.</p>
+                                    <h3 className="font-bold text-lg mb-2">Dispatcher Hub</h3>
+                                    <p className="text-gray-500 text-xs relative z-10">Real-time trip instantiation binding idle drivers and registered vehicles together.</p>
                                 </div>
                             </PixelCard>
-                            {/* Card 2 */}
                             <PixelCard variant="blue" className="w-full h-auto !aspect-auto bg-[#1a1d24]/50 backdrop-blur-sm border-white/5 rounded-xl hover:bg-[#1a1d24] transition-all group">
                                 <div className="p-8 flex flex-col items-center text-center">
                                     <div className="text-teal-400 mb-4 group-hover:scale-110 transition-transform">
                                         <Grid size={40} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="font-bold text-lg mb-2">Mobile & Desktop App</h3>
-                                    <p className="text-gray-500 text-xs relative z-10">We can create for you mobile and desktop app.</p>
+                                    <h3 className="font-bold text-lg mb-2">Fleet Management</h3>
+                                    <p className="text-gray-500 text-xs relative z-10">Odometer tracking and active preventative maintenance shop logs for physical assets.</p>
                                 </div>
                             </PixelCard>
-                            {/* Card 3 */}
                             <PixelCard variant="blue" className="w-full h-auto !aspect-auto bg-[#1a1d24]/50 backdrop-blur-sm border-white/5 rounded-xl hover:bg-[#1a1d24] transition-all group">
                                 <div className="p-8 flex flex-col items-center text-center">
                                     <div className="text-teal-400 mb-4 group-hover:scale-110 transition-transform">
                                         <LayoutTemplate size={40} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="font-bold text-lg mb-2">UI & UX Design</h3>
-                                    <p className="text-gray-500 text-xs relative z-10">We can create for you mobile and desktop app.</p>
+                                    <h3 className="font-bold text-lg mb-2">Financial Accounting</h3>
+                                    <p className="text-gray-500 text-xs relative z-10">Automatically log toll, maintenance, and fuel expenditures against specific trip IDs.</p>
                                 </div>
                             </PixelCard>
-                            {/* Card 4 */}
                             <PixelCard variant="default" className="w-full h-auto !aspect-auto bg-[#1a1d24]/50 backdrop-blur-sm border-white/5 rounded-xl hover:bg-[#1a1d24] transition-all group">
                                 <div className="p-8 flex flex-col items-center text-center">
                                     <div className="text-teal-400 mb-4 group-hover:scale-110 transition-transform">
                                         <ImageIcon size={40} strokeWidth={1.5} />
                                     </div>
-                                    <h3 className="font-bold text-lg mb-2">Editing Photo</h3>
-                                    <p className="text-gray-500 text-xs relative z-10">We can design for you a website and we can upload them.</p>
+                                    <h3 className="font-bold text-lg mb-2">Safety Profiles</h3>
+                                    <p className="text-gray-500 text-xs relative z-10">Hard-lock users from duty if compliance records dictate suspended states.</p>
                                 </div>
                             </PixelCard>
                         </div>
                     </div>
                 </section>
 
-                {/* About Us Section */}
-                <section id="about" ref={aboutRef} className="relative min-h-screen flex items-center py-20">
-                    <div className="absolute top-1/2 left-1/4 -translate-y-1/2 text-[40vh] font-bold text-white/[0.02] select-none pointer-events-none z-0 tracking-tighter">
-                        O
+                {/* How It Works Section */}
+                <section id="how-it-works" ref={aboutRef} className="relative min-h-screen flex items-center py-20 bg-[#0c0e12]">
+                    <div className="absolute top-1/2 right-1/4 -translate-y-1/2 text-[40vh] font-bold text-white/[0.02] select-none pointer-events-none z-0 tracking-tighter">
+                        W
                     </div>
 
-                    <div className="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row items-center gap-16 z-10 relative">
-                        <div ref={aboutImageRef} className="flex-1 w-full flex justify-center md:justify-start">
-                            <div className="relative w-80 h-[500px] rounded-full overflow-hidden shrink-0 grayscale hover:grayscale-0 transition-all duration-700">
+                    <div className="max-w-7xl mx-auto px-6 w-full flex flex-col md:flex-row-reverse items-center gap-16 z-10 relative">
+                        <div ref={aboutImageRef} className="flex-1 w-full flex justify-center md:justify-end">
+                            {/* Reusing the same asset or a subtle graphic context */}
+                            <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(45,212,191,0.1)] flex items-center justify-center p-8 bg-gradient-to-br from-[#1a1d24] to-[#0f1115] border border-white/5">
                                 <img
-                                    src="https://images.unsplash.com/photo-1516280440502-6101ce6d55ea?q=80&w=2670&auto=format&fit=crop"
-                                    alt="About Us"
-                                    className="w-full h-full object-cover object-center"
+                                    src="/delivery-truck.png"
+                                    alt="How It Works - Delivery Engine"
+                                    className="w-full h-full object-contain drop-shadow-2xl animate-[float_4s_ease-in-out_infinite_reverse]"
                                 />
-                                <div className="absolute inset-0 bg-black/20 mix-blend-overlay"></div>
                             </div>
                         </div>
 
-                        <div ref={aboutTextRef} className="flex-1 space-y-6">
-                            <div className="text-teal-400 text-sm font-bold tracking-widest uppercase">
-                                ABOUT US
+                        <div ref={aboutTextRef} className="flex-1 space-y-8">
+                            <div>
+                                <div className="text-teal-400 text-sm font-bold tracking-widest uppercase mb-2">
+                                    HOW IT WORKS
+                                </div>
+                                <h2 className="text-5xl md:text-5xl font-bold uppercase">
+                                    THE LOGISTICS <span className="text-teal-400">ENGINE</span>
+                                </h2>
                             </div>
-                            <h2 className="text-5xl md:text-6xl font-bold uppercase">
-                                WHO ARE <span className="text-teal-400">WE?</span>
-                            </h2>
-                            <p className="text-gray-400 max-w-lg text-sm leading-relaxed mb-6">
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type.
-                            </p>
 
-                            <div className="grid grid-cols-2 gap-8 pt-4">
-                                <div>
-                                    <div className="flex items-center gap-2 mb-3 text-white">
-                                        <Sun className="text-teal-400" size={24} />
-                                        <h4 className="font-bold text-sm">Clean Code</h4>
+                            <div className="space-y-6">
+                                {/* Step 1 */}
+                                <div className="flex gap-4">
+                                    <div className="w-12 h-12 shrink-0 rounded-full bg-teal-400/10 border border-teal-400/30 flex items-center justify-center text-teal-400 font-bold text-lg">
+                                        1
                                     </div>
-                                    <p className="text-gray-500 text-xs leading-relaxed">
-                                        Lorem Ipsum is simply dummy text of the printing.
-                                    </p>
+                                    <div>
+                                        <h3 className="font-bold text-white text-xl mb-2">Register Assets & Capital</h3>
+                                        <p className="text-gray-400 text-sm leading-relaxed">
+                                            Safety Officers and Fleet Managers upload Drivers and Physical Vehicles into the ecosystem databases to track capacities, odometer stats, and safety clearances.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div className="flex items-center gap-2 mb-3 text-white">
-                                        <Layout className="text-teal-400" size={24} />
-                                        <h4 className="font-bold text-sm">Modern Design</h4>
+                                {/* Step 2 */}
+                                <div className="flex gap-4">
+                                    <div className="w-12 h-12 shrink-0 rounded-full bg-teal-400/10 border border-teal-400/30 flex items-center justify-center text-teal-400 font-bold text-lg">
+                                        2
                                     </div>
-                                    <p className="text-gray-500 text-xs leading-relaxed">
-                                        Lorem Ipsum is simply dummy text of the printing.
-                                    </p>
+                                    <div>
+                                        <h3 className="font-bold text-white text-xl mb-2">Dispatch & Monitoring</h3>
+                                        <p className="text-gray-400 text-sm leading-relaxed">
+                                            The Dispatcher role binds a Vehicle, Driver, and Cargo Payload into an active Trip.
+                                            The Command Center dashboard visualizes this real-time transition across the fleet.
+                                        </p>
+                                    </div>
+                                </div>
+                                {/* Step 3 */}
+                                <div className="flex gap-4">
+                                    <div className="w-12 h-12 shrink-0 rounded-full bg-teal-400/10 border border-teal-400/30 flex items-center justify-center text-teal-400 font-bold text-lg">
+                                        3
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-white text-xl mb-2">Financial Accounting</h3>
+                                        <p className="text-gray-400 text-sm leading-relaxed">
+                                            Upon completion, Financial Analysts log expenditures (fuel, maintenance, tolls) against the localized trip ID, automatically computing Fleet ROI and Net Revenue visualizations.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </section>

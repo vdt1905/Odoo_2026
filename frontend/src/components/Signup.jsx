@@ -98,9 +98,17 @@ const Signup = () => {
                         <div className="w-16 h-1 bg-slate-400 mb-4 rounded-full"></div>
 
                         <p className="text-slate-300 text-sm md:text-base mb-6 leading-relaxed font-light">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in eros tempus, euismod nunc vitae, tempus purus. Suspendisse ornare semper neque, ut iaculis dui auctor in.
+                            Join the FleetFlow network to seamlessly integrate into our operational backbone. Choose your organizational role to receive scoped access automatically tailored to your responsibilities.
                         </p>
 
+                        <div className="mt-8 flex justify-center lg:justify-start relative">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#00ced1]/20 rounded-full blur-[60px] pointer-events-none"></div>
+                            <img
+                                src="/auth-img-2.png"
+                                alt="FleetFlow Network Sign Up"
+                                className="w-full max-w-sm md:max-w-md object-contain relative z-10 drop-shadow-[0_0_30px_rgba(0,206,209,0.15)] animate-[float_6s_ease-in-out_infinite_reverse]"
+                            />
+                        </div>
 
                     </div>
                 </div>

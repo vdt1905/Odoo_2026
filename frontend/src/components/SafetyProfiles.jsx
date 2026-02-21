@@ -127,7 +127,8 @@ const SafetyProfiles = () => {
 
             <main className="flex-1 overflow-x-hidden overflow-y-auto relative hidden-scrollbar" id="main-scroll">
                 {/* Background Details */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-500/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-rose-500/20 to-indigo-600/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen"></div>
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-[#00ced1]/20 to-rose-500/10 rounded-full blur-[100px] pointer-events-none opacity-40 mix-blend-screen"></div>
 
                 <div className="p-8 lg:p-10 max-w-7xl mx-auto relative z-10 min-h-full" ref={mainContentRef} style={{ opacity: 0 }}>
 
@@ -149,51 +150,56 @@ const SafetyProfiles = () => {
                             )}
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
-                            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-[0_0_30px_rgba(16,185,129,0.05)]">
-                                <div>
-                                    <p className="text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">Fleet Avg Health</p>
-                                    <h3 className={`text-3xl font-bold ${getScoreColor(avgScore)}`}>{avgScore}<span className="text-sm text-slate-500 ml-1">/ 100</span></h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
+                            <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center justify-between min-h-[140px]">
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                                <div className="relative z-10">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10 mb-4 inline-block">Fleet Avg Health</p>
+                                    <div className="flex items-baseline gap-1">
+                                        <h3 className={`text-[2.5rem] leading-none font-medium tracking-tight drop-shadow-[0_2px_15px_rgba(52,211,153,0.3)] ${getScoreColor(avgScore)}`}>{avgScore}</h3>
+                                        <span className="text-sm font-semibold text-white/60 tracking-wider">/ 100</span>
+                                    </div>
                                 </div>
-                                <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-                                    <Award size={24} />
+                                <div className="relative z-10 w-16 h-16 rounded-[1.2rem] bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-white/10 backdrop-blur-md shrink-0 shadow-inner group-hover:scale-110 transition-transform">
+                                    <Award size={32} />
                                 </div>
                             </div>
-                            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between shadow-[0_0_30px_rgba(244,63,94,0.05)]">
-                                <div>
-                                    <p className="text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">At Risk Drivers</p>
-                                    <h3 className="text-3xl font-bold text-rose-400">
+                            <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center justify-between min-h-[140px]">
+                                <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                                <div className="relative z-10">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10 mb-4 inline-block">At Risk Drivers</p>
+                                    <h3 className="text-[2.5rem] leading-none font-medium text-rose-400 tracking-tight drop-shadow-[0_2px_15px_rgba(244,63,94,0.3)]">
                                         {drivers.filter(d => d.safetyScore < 75 || isExpiringSoon(d.licenseExpiry) || isExpired(d.licenseExpiry)).length}
                                     </h3>
                                 </div>
-                                <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400">
-                                    <AlertOctagon size={24} />
+                                <div className="relative z-10 w-16 h-16 rounded-[1.2rem] bg-rose-500/10 flex items-center justify-center text-rose-400 border border-white/10 backdrop-blur-md shrink-0 shadow-inner group-hover:scale-110 transition-transform">
+                                    <AlertOctagon size={32} />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl" ref={tableRef} style={{ opacity: 0 }}>
-                        <div className="p-6 border-b border-white/10 flex items-center gap-2 bg-[#0b1120]/50">
-                            <Shield className="text-rose-400" size={18} />
-                            <h3 className="text-lg font-bold text-white">Driver Roster</h3>
+                    <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.4)]" ref={tableRef} style={{ opacity: 0 }}>
+                        <div className="p-6 border-b border-white/[0.05] flex items-center gap-3">
+                            <Shield className="text-rose-400" size={20} />
+                            <h3 className="text-lg font-bold text-white drop-shadow-sm">Driver Roster</h3>
                         </div>
 
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto relative">
                             <table className="w-full text-left text-sm whitespace-nowrap">
-                                <thead className="bg-[#0b1120] text-slate-400 border-b border-white/10">
+                                <thead className="bg-black/20 text-slate-400 border-b border-white/[0.05]">
                                     <tr>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Name</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">License#</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Expiry</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Completion Rate</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Safety Score</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Complaints</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase">Duty Status</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase text-right">Actions</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Name</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">License#</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Expiry</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Completion Rate</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Safety Score</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Complaints</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Duty Status</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80 text-right">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5">
+                                <tbody className="divide-y divide-white/[0.05] bg-transparent">
                                     {isLoading ? (
                                         <tr>
                                             <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
@@ -284,14 +290,14 @@ const SafetyProfiles = () => {
             {/* Add Driver Modal */}
             {isAddModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsAddModalOpen(false)}></div>
-                    <div className="relative bg-[#0b1120] border border-[#00ced1]/20 rounded-2xl shadow-[0_0_50px_rgba(0,206,209,0.1)] w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                        <div className="flex items-center justify-between p-5 border-b border-white/10 bg-gradient-to-r from-[#00ced1]/10 to-transparent">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsAddModalOpen(false)}></div>
+                    <div className="relative bg-gradient-to-br from-[#0b1120]/90 to-[#050b14]/90 backdrop-blur-[40px] border border-[#00ced1]/30 border-b-black/50 border-r-black/50 rounded-[2rem] shadow-[0_20px_60px_rgba(0,206,209,0.15)] w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-between p-6 border-b border-white/[0.05] bg-gradient-to-r from-[#00ced1]/10 to-transparent">
                             <div>
-                                <h2 className="text-lg font-bold text-white leading-tight">Add Fleet Driver</h2>
-                                <p className="text-xs text-[#00ced1]/70 uppercase tracking-wider font-semibold">New Human Capital</p>
+                                <h2 className="text-lg font-bold text-white leading-tight drop-shadow-sm">Add Fleet Driver</h2>
+                                <p className="text-[10px] text-[#00ced1]/70 uppercase tracking-widest font-bold mt-1">New Human Capital</p>
                             </div>
-                            <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-white transition-colors bg-white/5 p-1.5 rounded-md hover:bg-[#00ced1]/20">
+                            <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-white transition-colors bg-white/5 p-2 rounded-xl border border-white/10 hover:bg-[#00ced1]/20 hover:border-[#00ced1]/30">
                                 <X size={16} />
                             </button>
                         </div>
@@ -346,14 +352,14 @@ const SafetyProfiles = () => {
             {/* Edit Safety Profile Modal */}
             {isEditModalOpen && selectedDriver && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsEditModalOpen(false)}></div>
-                    <div className="relative bg-[#0b1120] border border-rose-500/20 rounded-2xl shadow-[0_0_50px_rgba(244,63,94,0.1)] w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                        <div className="flex items-center justify-between p-5 border-b border-white/10 bg-gradient-to-r from-rose-500/10 to-transparent">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsEditModalOpen(false)}></div>
+                    <div className="relative bg-gradient-to-br from-[#0b1120]/90 to-[#050b14]/90 backdrop-blur-[40px] border border-rose-500/30 border-b-black/50 border-r-black/50 rounded-[2rem] shadow-[0_20px_60px_rgba(244,63,94,0.15)] w-full max-w-sm overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-between p-6 border-b border-white/[0.05] bg-gradient-to-r from-rose-500/10 to-transparent">
                             <div>
-                                <h2 className="text-lg font-bold text-white leading-tight">Safety Review</h2>
-                                <p className="text-xs text-rose-200/50 uppercase tracking-wider font-semibold">{selectedDriver.name}</p>
+                                <h2 className="text-lg font-bold text-white leading-tight drop-shadow-sm">Safety Review</h2>
+                                <p className="text-[10px] text-rose-300/60 uppercase tracking-widest font-bold mt-1">{selectedDriver.name}</p>
                             </div>
-                            <button onClick={() => setIsEditModalOpen(false)} className="text-slate-400 hover:text-white transition-colors bg-white/5 p-1.5 rounded-md hover:bg-rose-500/20">
+                            <button onClick={() => setIsEditModalOpen(false)} className="text-slate-400 hover:text-white transition-colors bg-white/5 p-2 rounded-xl border border-white/10 hover:bg-rose-500/20 hover:border-rose-500/30">
                                 <X size={16} />
                             </button>
                         </div>

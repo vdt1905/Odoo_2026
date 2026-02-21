@@ -70,19 +70,20 @@ const Dashboard = () => {
     if (!user) return null;
 
     const KpiCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
-        <div className={`p-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-xl shrink-0 ${gradientClass} relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300 shadow-xl`}>
-            <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:scale-110 group-hover:opacity-40 transition-all duration-500">
-                <Icon size={80} className={colorClass} />
+        <div className={`p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)]`}>
+            <div className={`absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 ${gradientClass}`} style={{ zIndex: 0 }}></div>
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-4 translate-x-4">
+                <Icon size={120} className={colorClass} />
             </div>
-            <div className="relative z-10 flex flex-col h-full justify-between">
+            <div className="relative z-10 flex flex-col h-full justify-between min-h-[140px]">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className={`p-3 rounded-xl border border-white/10 ${colorClass.replace('text-', 'bg-').replace('400', '500/10')} flex items-center justify-center`}>
+                    <div className={`p-3 rounded-[1.2rem] border border-white/10 ${colorClass.replace('text-', 'bg-').replace('400', '500/10')} flex items-center justify-center backdrop-blur-md`}>
                         <Icon size={20} className={colorClass} />
                     </div>
-                    <h3 className="text-white/70 font-medium text-sm tracking-wide">{title}</h3>
+                    <h3 className="text-white/70 font-semibold text-xs tracking-widest uppercase">{title}</h3>
                 </div>
                 <div>
-                    <h2 className="text-4xl font-black text-white tracking-tight drop-shadow-md">{value}</h2>
+                    <h2 className="text-[2.75rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)]">{value}</h2>
                 </div>
             </div>
         </div>
@@ -98,8 +99,8 @@ const Dashboard = () => {
             <main className="flex-1 overflow-x-hidden overflow-y-auto relative hidden-scrollbar" id="main-scroll">
 
                 {/* Abstract Background Elements */}
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ced1]/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+                <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-[#00ced1]/20 to-indigo-600/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen"></div>
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-500/20 to-[#00ced1]/20 rounded-full blur-[100px] pointer-events-none opacity-40 mix-blend-screen"></div>
 
                 <div className="p-8 lg:p-10 max-w-7xl mx-auto relative z-10 min-h-full" ref={mainContentRef} style={{ opacity: 0 }}>
 
@@ -151,40 +152,41 @@ const Dashboard = () => {
 
                             {/* Table Controls */}
                             <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
-                                <div className="relative w-full xl:w-96 flex-shrink-0">
-                                    <input type="text" placeholder="Search trips..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 transition-all shadow-inner" />
-                                    <Search className="absolute left-3.5 top-3 text-white/40" size={16} />
+                                <div className="relative w-full xl:w-96 flex-shrink-0 group">
+                                    <div className="absolute inset-0 bg-[#00ced1]/10 rounded-[1.2rem] blur-md opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"></div>
+                                    <input type="text" placeholder="Search trips..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-3 rounded-[1.2rem] bg-black/30 backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white text-sm focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/40 transition-all shadow-inner relative z-10" />
+                                    <Search className="absolute left-3.5 top-3.5 text-white/50 relative z-10" size={16} />
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-2 xl:gap-3">
                                     <div className="flex gap-2">
-                                        <button className="px-5 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors shadow-sm">Group by</button>
-                                        <button className="px-5 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors shadow-sm">Filter</button>
-                                        <button className="px-5 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors shadow-sm">Sort by...</button>
+                                        <button className="px-5 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white hover:bg-white/[0.06] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)]">Group by</button>
+                                        <button className="px-5 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white hover:bg-white/[0.06] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)]">Filter</button>
+                                        <button className="px-5 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white hover:bg-white/[0.06] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)]">Sort by...</button>
                                     </div>
 
                                     <div className="w-px h-8 bg-white/10 mx-1 hidden sm:block"></div>
 
                                     <div className="flex gap-2">
-                                        <button onClick={() => navigate('/dispatch')} className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-colors"><Plus size={14} /> New Trip</button>
-                                        <button onClick={() => navigate('/vehicles')} className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-[#00ced1]/10 border border-[#00ced1]/20 text-[#00ced1] hover:bg-[#00ced1]/20 transition-colors"><Plus size={14} /> New Vehicle</button>
+                                        <button onClick={() => navigate('/dispatch')} className="flex items-center gap-1.5 px-4 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-gradient-to-br from-emerald-500/10 to-transparent backdrop-blur-xl border border-emerald-500/20 border-b-black/50 border-r-black/50 text-emerald-400 hover:bg-emerald-500/20 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)]"><Plus size={14} /> New Trip</button>
+                                        <button onClick={() => navigate('/vehicles')} className="flex items-center gap-1.5 px-4 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-gradient-to-br from-[#00ced1]/10 to-transparent backdrop-blur-xl border border-[#00ced1]/20 border-b-black/50 border-r-black/50 text-[#00ced1] hover:bg-[#00ced1]/20 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)]"><Plus size={14} /> New Vehicle</button>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Trip Table */}
-                            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl" ref={tableRef}>
-                                <div className="p-6 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
-                                    <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                            <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.4)]" ref={tableRef}>
+                                <div className="p-6 border-b border-white/[0.05] flex items-center justify-between">
+                                    <h3 className="text-lg font-bold text-white flex items-center gap-2 drop-shadow-sm">
                                         <Send size={20} className="text-[#00ced1]" />
                                         Active Trips
                                     </h3>
                                     <button onClick={() => navigate('/dispatch')} className="text-[#00ced1] text-xs font-bold hover:underline">View Dispatcher</button>
                                 </div>
 
-                                <div className="overflow-x-auto">
+                                <div className="overflow-x-auto relative">
                                     <table className="w-full text-left text-sm whitespace-nowrap">
-                                        <thead className="bg-[#0b1120] text-[#00ced1] border-b border-white/10">
+                                        <thead className="bg-black/20 text-[#00ced1] border-b border-white/[0.05]">
                                             <tr>
                                                 <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Trip ID</th>
                                                 <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Vehicle</th>
@@ -192,7 +194,7 @@ const Dashboard = () => {
                                                 <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80 text-right">Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-white/5 bg-black/20">
+                                        <tbody className="divide-y divide-white/[0.05] bg-transparent">
                                             {recentTrips?.filter(trip =>
                                                 trip.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                                 trip.vehicle.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -216,8 +218,8 @@ const Dashboard = () => {
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
                                                         <span className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-bold tracking-wider border ${trip.status === 'Completed' ? 'bg-[#00ced1]/10 text-[#00ced1] border-[#00ced1]/20' :
-                                                                trip.status === 'Dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                                                    'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                                            trip.status === 'Dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                                                'bg-amber-500/10 text-amber-400 border-amber-500/20'
                                                             }`}>
                                                             {trip.status === 'Dispatched' ? 'On Trip' : trip.status}
                                                         </span>

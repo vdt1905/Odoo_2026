@@ -101,7 +101,8 @@ const TripDispatcher = () => {
 
             <main className="flex-1 overflow-x-hidden overflow-y-auto relative hidden-scrollbar" id="main-scroll">
                 {/* Background Details */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-[#00ced1]/20 to-indigo-600/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen"></div>
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-500/20 to-[#00ced1]/20 rounded-full blur-[100px] pointer-events-none opacity-40 mix-blend-screen"></div>
 
                 <div className="p-8 lg:p-10 max-w-7xl mx-auto relative z-10 min-h-full" ref={mainContentRef} style={{ opacity: 0 }}>
                     <div className="mb-8">
@@ -112,90 +113,93 @@ const TripDispatcher = () => {
                     <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
 
                         {/* Dispatch Form (Left Panel) */}
-                        <div className="xl:col-span-1 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-2xl relative overflow-hidden" ref={formRef}>
+                        <div className="xl:col-span-1 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] relative overflow-hidden" ref={formRef}>
                             {/* Accent Glow */}
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00ced1] to-indigo-500"></div>
+                            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#00ced1]/10 rounded-full blur-2xl pointer-events-none"></div>
 
-                            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 drop-shadow-sm">
                                 <Send size={20} className="text-[#00ced1]" />
                                 Create Dispatch
                             </h2>
 
                             {formError && (
-                                <div className="mb-6 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium animate-pulse">
+                                <div className="mb-6 p-3 rounded-[1.2rem] bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium animate-pulse shadow-inner">
                                     {formError}
                                 </div>
                             )}
 
-                            <form onSubmit={handleFormSubmit} className="space-y-5">
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1 flex items-center gap-2"><Truck size={14} /> Select Vehicle</label>
-                                    <select required value={formData.vehicle} onChange={e => setFormData({ ...formData, vehicle: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-[#0b1120] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm transition-all appearance-none">
-                                        <option value="" disabled>-- Available Fleet --</option>
+                            <form onSubmit={handleFormSubmit} className="space-y-5 relative z-10">
+                                <div className="space-y-1.5 group">
+                                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors"><Truck size={14} /> Select Vehicle</label>
+                                    <select required value={formData.vehicle} onChange={e => setFormData({ ...formData, vehicle: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all appearance-none shadow-inner">
+                                        <option value="" disabled className="bg-[#0b1120]">-- Available Fleet --</option>
                                         {availableVehicles.map(v => (
-                                            <option key={v._id} value={v._id}>{v.name} ({v.maxLoadCapacity}kg cap)</option>
+                                            <option key={v._id} value={v._id} className="bg-[#0b1120]">{v.name} ({v.maxLoadCapacity}kg cap)</option>
                                         ))}
                                     </select>
                                 </div>
 
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1 flex items-center gap-2">Cargo Weight (kg)</label>
-                                    <input type="number" required value={formData.cargoWeight} onChange={e => setFormData({ ...formData, cargoWeight: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm transition-all font-mono" placeholder="e.g. 4500" />
+                                <div className="space-y-1.5 group">
+                                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors">Cargo Weight (kg)</label>
+                                    <input type="number" required value={formData.cargoWeight} onChange={e => setFormData({ ...formData, cargoWeight: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all font-mono shadow-inner" placeholder="e.g. 4500" />
                                 </div>
 
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1 flex items-center gap-2"><User size={14} /> Assign Driver</label>
-                                    <select required value={formData.driver} onChange={e => setFormData({ ...formData, driver: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-[#0b1120] border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm transition-all appearance-none col-span-2">
-                                        <option value="" disabled>-- Available Drivers --</option>
+                                <div className="space-y-1.5 group">
+                                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors"><User size={14} /> Assign Driver</label>
+                                    <select required value={formData.driver} onChange={e => setFormData({ ...formData, driver: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all appearance-none col-span-2 shadow-inner">
+                                        <option value="" disabled className="bg-[#0b1120]">-- Available Drivers --</option>
                                         {availableDrivers.map(d => (
-                                            <option key={d._id} value={d._id}>{d.name} (Score: {d.safetyScore})</option>
+                                            <option key={d._id} value={d._id} className="bg-[#0b1120]">{d.name} (Score: {d.safetyScore})</option>
                                         ))}
                                     </select>
                                 </div>
 
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1 flex items-center gap-2"><MapPin size={14} /> Origin Address</label>
-                                    <input type="text" required value={formData.origin} onChange={e => setFormData({ ...formData, origin: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm transition-all" placeholder="e.g. Mumbai" />
+                                <div className="space-y-1.5 group">
+                                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors"><MapPin size={14} /> Origin Address</label>
+                                    <input type="text" required value={formData.origin} onChange={e => setFormData({ ...formData, origin: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all shadow-inner" placeholder="e.g. Mumbai" />
                                 </div>
 
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1 flex items-center gap-2"><MapPin size={14} /> Destination</label>
-                                    <input type="text" required value={formData.destination} onChange={e => setFormData({ ...formData, destination: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm transition-all" placeholder="e.g. Pune" />
+                                <div className="space-y-1.5 group">
+                                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors"><MapPin size={14} /> Destination</label>
+                                    <input type="text" required value={formData.destination} onChange={e => setFormData({ ...formData, destination: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all shadow-inner" placeholder="e.g. Pune" />
                                 </div>
 
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider ml-1 flex items-center gap-2">Estimated Fuel Cost (₹)</label>
-                                    <input type="number" required value={formData.estimatedFuelCost} onChange={e => setFormData({ ...formData, estimatedFuelCost: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 text-sm transition-all font-mono" placeholder="e.g. 1500" />
+                                <div className="space-y-1.5 group">
+                                    <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors">Estimated Fuel Cost (₹)</label>
+                                    <input type="number" required value={formData.estimatedFuelCost} onChange={e => setFormData({ ...formData, estimatedFuelCost: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all font-mono shadow-inner" placeholder="e.g. 1500" />
                                 </div>
 
-                                <button type="submit" className="w-full py-3 mt-4 rounded-xl bg-[#00ced1] text-[#050b14] font-bold shadow-[0_0_15px_rgba(0,206,209,0.3)] hover:shadow-[0_0_20px_rgba(0,206,209,0.5)] transition-all text-sm tracking-wide transform hover:-translate-y-0.5" disabled={isLoading}>
+                                <button type="submit" className="w-full py-3.5 mt-6 rounded-[1.2rem] bg-gradient-to-r from-[#00ced1] to-[#018b8b] text-white font-bold shadow-[0_0_20px_rgba(0,206,209,0.4)] hover:shadow-[0_0_30px_rgba(0,206,209,0.6)] transition-all text-sm tracking-wide transform hover:-translate-y-0.5 border border-white/10" disabled={isLoading}>
                                     Confirm & Dispatch
                                 </button>
                             </form>
                         </div>
 
                         {/* Active Dispatch Board (Right Panel) */}
-                        <div className="xl:col-span-2 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-2xl flex flex-col h-[750px] relative overflow-hidden" ref={boardRef}>
+                        <div className="xl:col-span-2 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[750px] relative overflow-hidden" ref={boardRef}>
                             {/* Accent Glow */}
                             <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-indigo-500 to-[#00ced1]"></div>
+                            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
                             {/* Table Controls */}
-                            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6 pt-2">
-                                <div className="relative w-full sm:w-96">
-                                    <input type="text" placeholder="Search..." className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0b1120] border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00ced1]/50 transition-all shadow-inner" />
-                                    <Search className="absolute left-3.5 top-3text-white/40" size={16} />
+                            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6 pt-2 relative z-10">
+                                <div className="relative w-full sm:w-96 group">
+                                    <div className="absolute inset-0 bg-[#00ced1]/10 rounded-[1.2rem] blur-md opacity-0 group-focus-within:opacity-100 transition-opacity duration-500"></div>
+                                    <input type="text" placeholder="Search..." className="w-full pl-10 pr-4 py-3 rounded-[1.2rem] bg-black/30 backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white text-sm focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/40 transition-all shadow-inner relative z-10" />
+                                    <Search className="absolute left-3.5 top-3.5 text-white/40 relative z-10" size={16} />
                                 </div>
-                                <div className="flex gap-2">
-                                    <button className="px-5 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors shadow-sm">Group by</button>
-                                    <button className="px-5 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors shadow-sm">Filter</button>
-                                    <button className="px-5 py-2.5 text-xs font-bold tracking-wide rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors shadow-sm">Sort by...</button>
+                                <div className="flex gap-2 relative z-10">
+                                    <button className="px-5 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white hover:bg-white/[0.06] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)]">Group by</button>
+                                    <button className="px-5 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white hover:bg-white/[0.06] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)]">Filter</button>
+                                    <button className="px-5 py-3 text-xs font-bold tracking-wide rounded-[1.2rem] bg-white/[0.02] backdrop-blur-xl border border-white/10 border-b-black/50 border-r-black/50 text-white hover:bg-white/[0.06] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)]">Sort by...</button>
                                 </div>
                             </div>
 
                             {/* Data Table */}
-                            <div className="flex-1 overflow-x-auto overflow-y-auto hidden-scrollbar rounded-xl border border-white/10 bg-black/20">
+                            <div className="flex-1 overflow-x-auto overflow-y-auto hidden-scrollbar rounded-[1.5rem] border border-white/[0.05] bg-black/20 shadow-inner relative z-10">
                                 <table className="w-full text-left text-sm whitespace-nowrap">
-                                    <thead className="bg-[#0b1120] text-[#00ced1] border-b border-white/10 sticky top-0 z-10">
+                                    <thead className="bg-[#050b14]/80 backdrop-blur-md text-[#00ced1] border-b border-white/[0.08] sticky top-0 z-10">
                                         <tr>
                                             <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Trip</th>
                                             <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80">Fleet Type</th>
@@ -204,36 +208,39 @@ const TripDispatcher = () => {
                                             <th className="px-6 py-4 font-black tracking-wider text-xs uppercase opacity-80 text-right">Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-white/5">
+                                    <tbody className="divide-y divide-white/[0.05] bg-transparent">
                                         {trips.filter(t => t.status === 'Draft' || t.status === 'Dispatched').length === 0 ? (
                                             <tr>
-                                                <td colSpan="5" className="px-6 py-8 text-center text-slate-500 text-sm italic">
-                                                    No active trips available.
+                                                <td colSpan="5" className="px-6 py-12 text-center text-white/50 text-sm font-medium">
+                                                    No active trips currently in transit.
                                                 </td>
                                             </tr>
                                         ) : (
                                             trips.filter(t => t.status === 'Draft' || t.status === 'Dispatched').map((trip, idx) => (
-                                                <tr key={trip._id} className="hover:bg-white/[0.04] transition-colors group">
+                                                <tr key={trip._id} className="hover:bg-white/[0.02] transition-colors group">
                                                     <td className="px-6 py-5">
-                                                        <span className="font-mono text-white/60 font-medium">{idx + 1}</span>
+                                                        <span className="font-mono text-white/50 font-bold relative pl-4">
+                                                            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-indigo-500/50 group-hover:bg-[#00ced1] transition-colors"></span>
+                                                            {idx + 1}
+                                                        </span>
                                                     </td>
                                                     <td className="px-6 py-5">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="p-2 bg-white/5 rounded-lg border border-white/10 group-hover:border-[#00ced1]/30 transition-colors">
-                                                                <Truck size={16} className="text-white/60 group-hover:text-[#00ced1]/80 transition-colors" />
+                                                            <div className="p-2 bg-white/[0.02] rounded-xl border border-white/[0.05] group-hover:border-[#00ced1]/30 transition-colors shadow-sm">
+                                                                <Truck size={16} className="text-white/60 group-hover:text-[#00ced1] transition-colors drop-shadow-sm" />
                                                             </div>
                                                             <div className="flex flex-col">
-                                                                <span className="font-bold text-slate-200 text-base">{trip.vehicle?.name || 'Unknown'}</span>
-                                                                <span className="text-[10px] text-slate-400 font-mono tracking-wider mt-0.5">{trip.cargoWeight} kg | Driver: {trip.driver?.name?.split(' ')[0] || 'N/A'}</span>
+                                                                <span className="font-bold text-slate-200 text-base drop-shadow-sm">{trip.vehicle?.name || 'Unknown'}</span>
+                                                                <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest mt-0.5">{trip.cargoWeight} kg | Driver: {trip.driver?.name?.split(' ')[0] || 'N/A'}</span>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-5 text-slate-300 font-medium">{trip.origin || 'HQ'}</td>
-                                                    <td className="px-6 py-5 text-slate-300 font-medium">{trip.destination}</td>
+                                                    <td className="px-6 py-5 text-slate-300 font-bold">{trip.origin || 'HQ'}</td>
+                                                    <td className="px-6 py-5 text-slate-300 font-bold">{trip.destination}</td>
                                                     <td className="px-6 py-5 text-right">
                                                         <div className="flex items-center justify-end gap-4">
-                                                            <span className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-bold tracking-wide border ${trip.status === 'Dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                                                    'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                                            <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border backdrop-blur-md shadow-sm ${trip.status === 'Dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                                                'bg-amber-500/10 text-amber-400 border-amber-500/20'
                                                                 }`}>
                                                                 {trip.status === 'Dispatched' ? 'On Way' : 'Pending'}
                                                             </span>
@@ -241,12 +248,12 @@ const TripDispatcher = () => {
                                                             {/* Action Buttons */}
                                                             {trip.status === 'Draft' ? (
                                                                 <div className="flex gap-2">
-                                                                    <button onClick={() => updateTripStatus(trip._id, 'Dispatched')} className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:scale-110 transition-all" title="Dispatch"><Send size={14} /></button>
-                                                                    <button onClick={() => updateTripStatus(trip._id, 'Cancelled')} className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:scale-110 transition-all" title="Cancel"><XCircle size={14} /></button>
+                                                                    <button onClick={() => updateTripStatus(trip._id, 'Dispatched')} className="p-2.5 rounded-xl bg-gradient-to-br from-emerald-500/20 to-transparent backdrop-blur-md border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 hover:scale-110 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.1)]" title="Dispatch"><Send size={14} /></button>
+                                                                    <button onClick={() => updateTripStatus(trip._id, 'Cancelled')} className="p-2.5 rounded-xl bg-gradient-to-br from-red-500/20 to-transparent backdrop-blur-md border border-red-500/30 text-red-400 hover:bg-red-500/30 hover:scale-110 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.1)]" title="Cancel"><XCircle size={14} /></button>
                                                                 </div>
                                                             ) : (
                                                                 <div className="flex gap-2">
-                                                                    <button onClick={() => updateTripStatus(trip._id, 'Completed')} className="p-2 rounded-lg bg-[#00ced1]/10 text-[#00ced1] hover:bg-[#00ced1]/20 hover:scale-110 transition-all border border-[#00ced1]/20 shadow-[0_0_10px_rgba(0,206,209,0.1)]" title="Mark Completed"><CheckCircle size={14} /></button>
+                                                                    <button onClick={() => updateTripStatus(trip._id, 'Completed')} className="p-2.5 rounded-xl bg-gradient-to-br from-[#00ced1]/20 to-transparent backdrop-blur-md border border-[#00ced1]/30 text-[#00ced1] hover:bg-[#00ced1]/30 hover:scale-110 transition-all shadow-[0_4px_10px_rgba(0,0,0,0.1)]" title="Mark Completed"><CheckCircle size={14} /></button>
                                                                 </div>
                                                             )}
                                                         </div>

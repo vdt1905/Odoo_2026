@@ -98,7 +98,8 @@ const Expenses = () => {
 
             <main className="flex-1 overflow-x-hidden overflow-y-auto relative hidden-scrollbar" id="main-scroll">
                 {/* Background Details */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-purple-600/20 to-indigo-600/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen"></div>
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-[#00ced1]/20 to-purple-500/10 rounded-full blur-[100px] pointer-events-none opacity-40 mix-blend-screen"></div>
 
                 <div className="p-8 lg:p-10 max-w-7xl mx-auto relative z-10 min-h-full" ref={mainContentRef} style={{ opacity: 0 }}>
 
@@ -118,52 +119,55 @@ const Expenses = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
-                            <div>
-                                <p className="text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">All-Time Fleet Total</p>
-                                <h3 className="text-2xl font-bold text-white">${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center justify-between min-h-[140px]">
+                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                            <div className="relative z-10">
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10 mb-4 inline-block">All-Time Fleet Total</p>
+                                <h3 className="text-[2rem] leading-none font-medium text-white tracking-tight drop-shadow-sm">${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
                             </div>
-                            <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400">
-                                <DollarSign size={24} />
-                            </div>
-                        </div>
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
-                            <div>
-                                <p className="text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">Total Fuel Costs</p>
-                                <h3 className="text-2xl font-bold text-sky-400">${fuelExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
-                            </div>
-                            <div className="w-12 h-12 rounded-full bg-sky-500/10 flex items-center justify-center text-sky-400">
-                                <Tag size={24} />
+                            <div className="relative z-10 w-16 h-16 rounded-[1.2rem] bg-purple-500/10 flex items-center justify-center text-purple-400 border border-white/10 backdrop-blur-md shrink-0 shadow-inner group-hover:scale-110 transition-transform">
+                                <DollarSign size={32} />
                             </div>
                         </div>
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between">
-                            <div>
-                                <p className="text-slate-400 text-sm font-medium mb-1 tracking-wide uppercase">Misc Expenditures</p>
-                                <h3 className="text-2xl font-bold text-amber-400">${miscExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
+                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center justify-between min-h-[140px]">
+                            <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                            <div className="relative z-10">
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10 mb-4 inline-block">Total Fuel Costs</p>
+                                <h3 className="text-[2rem] leading-none font-medium text-sky-400 tracking-tight drop-shadow-[0_2px_15px_rgba(56,189,248,0.3)]">${fuelExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
                             </div>
-                            <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-400">
-                                <Activity size={24} />
+                            <div className="relative z-10 w-16 h-16 rounded-[1.2rem] bg-sky-500/10 flex items-center justify-center text-sky-400 border border-white/10 backdrop-blur-md shrink-0 shadow-inner group-hover:scale-110 transition-transform">
+                                <Tag size={32} />
+                            </div>
+                        </div>
+                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center justify-between min-h-[140px]">
+                            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                            <div className="relative z-10">
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10 mb-4 inline-block">Misc Expenditures</p>
+                                <h3 className="text-[2rem] leading-none font-medium text-amber-400 tracking-tight drop-shadow-[0_2px_15px_rgba(251,191,36,0.3)]">${miscExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
+                            </div>
+                            <div className="relative z-10 w-16 h-16 rounded-[1.2rem] bg-amber-500/10 flex items-center justify-center text-amber-400 border border-white/10 backdrop-blur-md shrink-0 shadow-inner group-hover:scale-110 transition-transform">
+                                <Activity size={32} />
                             </div>
                         </div>
                     </div>
 
                     {/* Data Table */}
-                    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden" ref={tableRef}>
-                        <div className="overflow-x-auto hidden-scrollbar">
+                    <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.4)]" ref={tableRef}>
+                        <div className="overflow-x-auto hidden-scrollbar relative">
                             <table className="w-full text-left text-sm whitespace-nowrap">
-                                <thead className="bg-[#0b1120] text-slate-400 border-b border-white/10">
+                                <thead className="bg-black/20 text-slate-400 border-b border-white/[0.05]">
                                     <tr>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Trip ID</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Driver</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Distance</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Fuel Exp</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Misc Exp</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Total Expense</th>
-                                        <th className="px-6 py-4 font-semibold tracking-wider text-xs uppercase opacity-80">Status</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Trip ID</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Driver</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Distance</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Fuel Exp</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Misc Exp</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Total Expense</th>
+                                        <th className="px-6 py-5 font-bold tracking-wider text-xs uppercase opacity-80">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5">
+                                <tbody className="divide-y divide-white/[0.05] bg-transparent">
                                     {isLoading ? (
                                         <tr>
                                             <td colSpan="7" className="px-6 py-12 text-center text-slate-500">
@@ -172,19 +176,22 @@ const Expenses = () => {
                                         </tr>
                                     ) : expenses.length === 0 ? (
                                         <tr>
-                                            <td colSpan="7" className="px-6 py-12 text-center text-slate-500 italic">No expenses currently logged.</td>
+                                            <td colSpan="7" className="px-6 py-12 text-center text-white/50 italic font-medium">No expenses currently logged.</td>
                                         </tr>
                                     ) : (
                                         expenses.map(exp => (
                                             <tr key={exp._id} className="hover:bg-white/[0.02] transition-colors group">
-                                                <td className="px-6 py-4 font-mono text-slate-300 font-medium">#{exp.trip?._id.substring(0, 8).toUpperCase()}</td>
-                                                <td className="px-6 py-4 font-bold text-white">{exp.driver?.name}</td>
-                                                <td className="px-6 py-4 text-slate-400">{exp.distance} km</td>
-                                                <td className="px-6 py-4 font-mono text-slate-400">${exp.fuelCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                                                <td className="px-6 py-4 font-mono text-slate-400">${exp.miscCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                                                <td className="px-6 py-4 font-mono font-bold text-purple-400">${exp.totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                                                <td className="px-6 py-4">
-                                                    <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase border inline-flex ${getStatusColor(exp.status)}`}>
+                                                <td className="px-6 py-5 font-mono text-white/50 font-bold relative pl-4">
+                                                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-purple-500/50 group-hover:bg-purple-400 transition-colors"></span>
+                                                    #{exp.trip?._id.substring(0, 8).toUpperCase()}
+                                                </td>
+                                                <td className="px-6 py-5 font-bold text-slate-200 drop-shadow-sm">{exp.driver?.name}</td>
+                                                <td className="px-6 py-5 text-slate-300 font-medium">{exp.distance} km</td>
+                                                <td className="px-6 py-5 font-mono text-slate-400">${exp.fuelCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                                <td className="px-6 py-5 font-mono text-slate-400">${exp.miscCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                                <td className="px-6 py-5 font-mono font-bold text-purple-400 drop-shadow-sm">${exp.totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                                                <td className="px-6 py-5">
+                                                    <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border backdrop-blur-md shadow-sm inline-flex ${getStatusColor(exp.status)}`}>
                                                         {exp.status}
                                                     </span>
                                                 </td>
@@ -201,15 +208,18 @@ const Expenses = () => {
                 {/* Add Expense Modal */}
                 {isAddModalOpen && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-                        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsAddModalOpen(false)}></div>
-                        <div className="relative bg-[#0b1120] border border-white/10 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                            <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.02]">
-                                <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                                    <Receipt size={20} className="text-purple-400" />
-                                    New Expense
-                                </h2>
-                                <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-white transition-colors">
-                                    <X size={20} />
+                        <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsAddModalOpen(false)}></div>
+                        <div className="relative bg-gradient-to-br from-[#0b1120]/90 to-[#050b14]/90 backdrop-blur-[40px] border border-purple-500/30 border-b-black/50 border-r-black/50 rounded-[2rem] shadow-[0_20px_60px_rgba(168,85,247,0.15)] w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="flex items-center justify-between p-6 border-b border-white/[0.05] bg-gradient-to-r from-purple-500/10 to-transparent">
+                                <div>
+                                    <h2 className="text-lg font-bold text-white leading-tight flex items-center gap-2 drop-shadow-sm">
+                                        <Receipt size={20} className="text-purple-400" />
+                                        New Expense
+                                    </h2>
+                                    <p className="text-[10px] text-purple-300/60 uppercase tracking-widest font-bold mt-1">Financial Entry</p>
+                                </div>
+                                <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-white transition-colors bg-white/5 p-2 rounded-xl border border-white/10 hover:bg-purple-500/20 hover:border-purple-500/30">
+                                    <X size={16} />
                                 </button>
                             </div>
 

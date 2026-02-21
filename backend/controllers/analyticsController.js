@@ -116,6 +116,11 @@ export const getFleetAnalytics = async (req, res) => {
             .sort((a, b) => b.cost - a.cost)
             .slice(0, 5);
 
+        const expenseBreakdown = {
+            'Fuel': totalFuelCost,
+            'Maintenance': totalMaintenanceCost,
+            'Other': totalOtherExpenses
+        };
 
         res.status(200).json({
             kpis: {
@@ -128,7 +133,8 @@ export const getFleetAnalytics = async (req, res) => {
             monthlySummary: financialSummary,
             charts: {
                 fuelEfficiencyTrend,
-                costliestVehicles: topCostliestVehicles
+                costliestVehicles: topCostliestVehicles,
+                expenseBreakdown
             }
         });
 

@@ -8,7 +8,7 @@ export const getDashboardStats = async (req, res) => {
         const [vehicles, trips, maints] = await Promise.all([
             Vehicle.find({}),
             Trip.find({}).sort({ createdAt: -1 }).limit(10).populate('vehicle').populate('driver'),
-            MaintenanceLog.find({ status: 'Open' }).sort({ createdAt: -1 }).limit(5).populate('vehicle')
+            MaintenanceLog.find({ status: 'Scheduled' }).sort({ createdAt: -1 }).limit(5).populate('vehicle')
         ]);
 
         const activeFleet = vehicles.filter(v => v.status === 'On Trip').length;

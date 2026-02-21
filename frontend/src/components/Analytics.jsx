@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import { Download, Droplet, TrendingUp, Activity, FileText } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-
+import ExpenseDonutChart from './ExpenseDonutChart';
 const Analytics = () => {
     const { isAuthenticated } = useAuthStore();
 
@@ -85,7 +85,10 @@ const Analytics = () => {
             <Sidebar />
 
             <main className="flex-1 overflow-x-hidden overflow-y-auto relative hidden-scrollbar" id="main-scroll">
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00ced1]/5 rounded-full blur-[150px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+
+                {/* Abstract Background Elements */}
+                <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-[#00ced1]/20 to-indigo-600/20 rounded-full blur-[120px] pointer-events-none opacity-50 mix-blend-screen"></div>
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-500/20 to-[#00ced1]/20 rounded-full blur-[100px] pointer-events-none opacity-40 mix-blend-screen"></div>
 
                 <div className="p-8 lg:p-10 max-w-7xl mx-auto relative z-10 min-h-full" ref={mainContentRef} style={{ opacity: 0 }}>
 
@@ -108,46 +111,69 @@ const Analytics = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" ref={widgetsRef}>
 
                         {/* Total Fuel Cost */}
-                        <div className="bg-[#0b1120] border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="p-2 bg-rose-500/10 rounded-lg text-rose-400"><Droplet size={20} /></div>
-                                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Expenditure</span>
+                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]">
+                            <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
+                                <Droplet size={100} className="text-rose-400" />
                             </div>
-                            <h3 className="text-3xl font-bold text-white mb-1 tracking-tight">₹{data.kpis.totalFuelCost.toLocaleString()}</h3>
-                            <p className="text-sm font-medium text-slate-400">Total Fuel Cost</p>
+                            <div className="relative z-10">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-rose-500/10 rounded-[1.2rem] text-rose-400 border border-white/10 backdrop-blur-md shrink-0 flex items-center justify-center"><Droplet size={20} /></div>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10">Expenditure</span>
+                                </div>
+                                <h3 className="text-[2.5rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)] mb-1">₹{data.kpis.totalFuelCost.toLocaleString()}</h3>
+                                <p className="text-sm font-semibold text-white/60 tracking-wider">Total Fuel Cost</p>
+                            </div>
                         </div>
 
                         {/* Fleet ROI */}
-                        <div className="bg-[#0b1120] border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400"><TrendingUp size={20} /></div>
-                                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Margin</span>
+                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]">
+                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
+                                <TrendingUp size={100} className="text-emerald-400" />
                             </div>
-                            <h3 className="text-3xl font-bold text-emerald-400 mb-1 tracking-tight">+{data.kpis.fleetROI}%</h3>
-                            <p className="text-sm font-medium text-slate-400">Fleet ROI</p>
+                            <div className="relative z-10">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-emerald-500/10 rounded-[1.2rem] text-emerald-400 border border-white/10 backdrop-blur-md shrink-0 flex items-center justify-center"><TrendingUp size={20} /></div>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10">Margin</span>
+                                </div>
+                                <h3 className="text-[2.5rem] leading-none font-medium text-emerald-400 tracking-tight drop-shadow-[0_2px_15px_rgba(52,211,153,0.3)] mb-1">+{data.kpis.fleetROI}%</h3>
+                                <p className="text-sm font-semibold text-white/60 tracking-wider">Fleet ROI</p>
+                            </div>
                         </div>
 
                         {/* Utilization Rate */}
-                        <div className="bg-[#0b1120] border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-[#00ced1]/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="p-2 bg-[#00ced1]/10 rounded-lg text-[#00ced1]"><Activity size={20} /></div>
-                                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Capacity</span>
+                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]">
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#00ced1]/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
+                                <Activity size={100} className="text-[#00ced1]" />
                             </div>
-                            <h3 className="text-3xl font-bold text-white mb-1 tracking-tight">{data.kpis.utilizationRate}%</h3>
-                            <p className="text-sm font-medium text-slate-400">Utilization Rate</p>
+                            <div className="relative z-10">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-[#00ced1]/10 rounded-[1.2rem] text-[#00ced1] border border-white/10 backdrop-blur-md shrink-0 flex items-center justify-center"><Activity size={20} /></div>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10">Capacity</span>
+                                </div>
+                                <h3 className="text-[2.5rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)] mb-1">{data.kpis.utilizationRate}%</h3>
+                                <p className="text-sm font-semibold text-white/60 tracking-wider">Utilization Rate</p>
+                            </div>
                         </div>
 
                     </div>
 
                     {/* Visual Charts Area */}
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8" ref={chartsRef}>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8" ref={chartsRef}>
+
+                        {/* Expense Breakdown Donut */}
+                        <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
+                            <h3 className="text-lg font-bold text-white mb-2 text-center drop-shadow-sm">Expense Distribution</h3>
+                            <div className="flex-1 w-full relative flex items-center justify-center -mt-4">
+                                <ExpenseDonutChart breakdown={data.charts.expenseBreakdown} />
+                            </div>
+                        </div>
 
                         {/* Fuel Efficiency Trend */}
-                        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-2xl flex flex-col h-[350px]">
-                            <h3 className="text-lg font-bold text-white mb-6">Fuel Efficiency Trend (km/L)</h3>
+                        <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
+                            <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm">Fuel Efficiency Trend (km/L)</h3>
                             <div className="flex-1 w-full relative">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart data={data.charts.fuelEfficiencyTrend} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -155,7 +181,7 @@ const Analytics = () => {
                                         <XAxis dataKey="month" stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
                                         <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#0b1120', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
+                                            contentStyle={{ backgroundColor: 'rgba(11, 17, 32, 0.8)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
                                             itemStyle={{ color: '#00ced1', fontWeight: 'bold' }}
                                         />
                                         <Line type="monotone" dataKey="efficiency" stroke="#00ced1" strokeWidth={3} dot={{ r: 4, fill: '#00ced1', strokeWidth: 0 }} activeDot={{ r: 6, stroke: 'rgba(0, 206, 209, 0.3)', strokeWidth: 4 }} />
@@ -165,8 +191,8 @@ const Analytics = () => {
                         </div>
 
                         {/* Top 5 Costliest Vehicles */}
-                        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-6 shadow-2xl flex flex-col h-[350px]">
-                            <h3 className="text-lg font-bold text-white mb-6">Top 5 Costliest Vehicles</h3>
+                        <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
+                            <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm">Top 5 Costliest Vehicles</h3>
                             <div className="flex-1 w-full relative">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={data.charts.costliestVehicles} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -174,9 +200,9 @@ const Analytics = () => {
                                         <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
                                         <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#0b1120', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
+                                            contentStyle={{ backgroundColor: 'rgba(11, 17, 32, 0.8)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
                                             itemStyle={{ color: '#f43f5e', fontWeight: 'bold' }}
-                                            cursor={{ fill: 'rgba(255,255,255,0.02)' }}
+                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                                         />
                                         <Bar dataKey="cost" fill="#f43f5e" radius={[4, 4, 0, 0]} />
                                     </BarChart>
@@ -187,23 +213,23 @@ const Analytics = () => {
                     </div>
 
                     {/* Financial Summary Table */}
-                    <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl overflow-hidden" ref={tableRef}>
-                        <div className="p-6 border-b border-white/10 flex items-center gap-3">
+                    <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.4)]" ref={tableRef}>
+                        <div className="p-6 border-b border-white/[0.05] flex items-center gap-3">
                             <FileText className="text-[#00ced1]" size={20} />
-                            <h2 className="text-lg font-bold text-white">Financial Summary of Month</h2>
+                            <h2 className="text-lg font-bold text-white drop-shadow-sm">Financial Summary of Month</h2>
                         </div>
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto relative">
                             <table className="w-full text-left text-sm whitespace-nowrap">
-                                <thead className="bg-[#0b1120] text-rose-400 border-b border-white/10">
+                                <thead className="bg-black/20 text-rose-400 border-b border-white/[0.05]">
                                     <tr>
-                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase">Month</th>
-                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase text-right">Revenue</th>
-                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase text-right">Fuel Cost</th>
-                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase text-right">Maintenance</th>
-                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase text-right">Net Profit</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase opacity-80">Month</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase opacity-80 text-right">Revenue</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase opacity-80 text-right">Fuel Cost</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase opacity-80 text-right">Maintenance</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider text-xs uppercase opacity-80 text-right">Net Profit</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5">
+                                <tbody className="divide-y divide-white/[0.05] bg-transparent">
                                     {data.monthlySummary.map((row, idx) => {
                                         const hasData = row.revenue > 0 || row.fuelCost > 0 || row.maintenance > 0;
                                         if (!hasData) return null; // Only render active months
