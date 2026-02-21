@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
 import Sidebar from './Sidebar';
-import { Truck, Plus, MoreVertical, X, Settings2, ShieldAlert, Search } from 'lucide-react';
+import MagicBento from './MagicBento';
+import { Truck, Plus, MoreVertical, X, Settings2, ShieldAlert, Search, Trash2 } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 
 const VehicleRegistry = () => {
@@ -82,6 +83,25 @@ const VehicleRegistry = () => {
             fetchVehicles();
         } catch (error) {
             console.error('Error updating status:', error);
+        }
+    };
+
+    const handleDelete = async (id, status) => {
+        if (status !== 'Available') {
+            alert('Only vehicles with "Available" status can be deleted.');
+            return;
+        }
+
+        if (!window.confirm('Are you sure you want to delete this vehicle?')) return;
+        try {
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            await axios.delete(`http://localhost:3000/api/vehicles/${id}`, {
+                headers: { Authorization: `Bearer ${storedUser?.token}` }
+            });
+            fetchVehicles();
+        } catch (error) {
+            console.error('Error deleting vehicle:', error);
+            alert(error.response?.data?.message || 'Error deleting vehicle');
         }
     };
 
@@ -210,7 +230,14 @@ const VehicleRegistry = () => {
                                                         className="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors border border-transparent hover:border-white/10"
                                                         title="Toggle Out of Service"
                                                     >
-                                                        <ShieldAlert size={16} className={v.status === 'Out of Service' ? 'text-emerald-400' : 'text-red-400'} />
+                                                        <ShieldAlert size={16} className={v.status === 'Out of Service' ? 'text-emerald-400' : 'text-amber-400'} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(v._id, v.status)}
+                                                        className="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors border border-transparent hover:border-white/10"
+                                                        title="Delete Vehicle"
+                                                    >
+                                                        <Trash2 size={16} className="text-red-400 hover:text-red-500" />
                                                     </button>
                                                 </td>
                                             </tr>
@@ -222,6 +249,7 @@ const VehicleRegistry = () => {
                     </div>
 
                 </div>
+                <MagicBento />
             </main>
 
             {/* Add Asset Modal */}

@@ -116,11 +116,101 @@ export const getFleetAnalytics = async (req, res) => {
             .sort((a, b) => b.cost - a.cost)
             .slice(0, 5);
 
+        // Calculate Vehicle ROI (Total Cost vs Revenue)
+        const vehicleStats = {};
+        vehicles.forEach(v => {
+            vehicleStats[v._id.toString()] = {
+                name: v.name || v.licensePlate,
+                totalCost: 0,
+                revenue: 0
+            };
+        });
+
+        expenses.forEach(exp => {
+            if (exp.vehicle && vehicleStats[exp.vehicle._id.toString()]) {
+                vehicleStats[exp.vehicle._id.toString()].totalCost += (exp.fuelCost || 0) + (exp.miscCost || 0);
+            }
+        });
+
+        maintenanceLogs.forEach(log => {
+            if (log.vehicle && vehicleStats[log.vehicle._id.toString()]) {
+                vehicleStats[log.vehicle._id.toString()].totalCost += (log.cost || 0);
+            }
+        });
+
+        completedTrips.forEach(trip => {
+            if (trip.vehicle && vehicleStats[trip.vehicle.toString()]) {
+                vehicleStats[trip.vehicle.toString()].revenue += ((trip.cargoWeight || 0) * 50); // Same mock revenue logic
+            }
+        });
+
+        const vehicleROI = Object.values(vehicleStats)
+            .filter(v => v.totalCost > 0 || v.revenue > 0) // Only show vehicles with activity
+            .map(v => ({
+                name: v.name,
+                totalCost: v.totalCost,
+                revenue: v.revenue,
+                netProfit: v.revenue - v.totalCost
+            }))
+            .sort((a, b) => b.netProfit - a.netProfit); // Sort by profitability
+
         const expenseBreakdown = {
             'Fuel': totalFuelCost,
             'Maintenance': totalMaintenanceCost,
-            'Other': totalOtherExpenses
+            'Misc': totalOtherExpenses,
+            'Driver Payments': expenses.reduce((sum, exp) => sum + ((exp.distance || 0) * 5), 0) // $5 per km
         };
+
+        // 4. Trip Completion Funnel
+        const tripFunnel = [
+            { name: 'Planned', count: trips.filter(t => t.status === 'Draft').length, fill: '#8884d8' },
+            { name: 'Running', count: trips.filter(t => t.status === 'Dispatched').length, fill: '#83a6ed' },
+            { name: 'Completed', count: completedTrips.length, fill: '#8dd1e1' },
+            { name: 'Cancelled', count: trips.filter(t => t.status === 'Cancelled').length, fill: '#ffc658' }
+        ];
+
+        // 5. Downtime Chart (Days lost per vehicle)
+        const downtimeData = {};
+        maintenanceLogs.forEach(log => {
+            if (log.vehicle) {
+                const vName = log.vehicle.name || log.vehicle.licensePlate;
+                if (!downtimeData[vName]) downtimeData[vName] = { name: vName, daysLost: 0 };
+                downtimeData[vName].daysLost += 3; // Assume 3 days downtime per maintenance log
+            }
+        });
+        const downtimeChart = Object.values(downtimeData).sort((a, b) => b.daysLost - a.daysLost);
+
+        // 6. Vehicle Utilization Heatmap (Last 30 Days)
+        const today = new Date();
+        const thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+
+        const recentTrips = trips.filter(t => new Date(t.createdAt) >= thirtyDaysAgo);
+        const utilizationHeatmap = [];
+
+        vehicles.forEach((vehicle, vIndex) => {
+            const vName = vehicle.name || vehicle.licensePlate;
+            for (let i = 0; i < 30; i++) {
+                const stepDate = new Date(thirtyDaysAgo);
+                stepDate.setDate(stepDate.getDate() + i);
+
+                // Check if vehicle had a trip created on this date
+                const hadTrip = recentTrips.some(t => {
+                    const tDate = new Date(t.createdAt);
+                    return t.vehicle.toString() === vehicle._id.toString() &&
+                        tDate.getDate() === stepDate.getDate() &&
+                        tDate.getMonth() === stepDate.getMonth();
+                });
+
+                utilizationHeatmap.push({
+                    x: i,
+                    y: vIndex,
+                    date: stepDate.toISOString().split('T')[0],
+                    vehicle: vName,
+                    active: hadTrip ? 1 : 0
+                });
+            }
+        });
 
         res.status(200).json({
             kpis: {
@@ -134,7 +224,11 @@ export const getFleetAnalytics = async (req, res) => {
             charts: {
                 fuelEfficiencyTrend,
                 costliestVehicles: topCostliestVehicles,
-                expenseBreakdown
+                expenseBreakdown,
+                tripFunnel,
+                downtimeChart,
+                utilizationHeatmap,
+                vehicleROI
             }
         });
 

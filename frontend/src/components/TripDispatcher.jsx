@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import Sidebar from './Sidebar';
 import { Send, MapPin, Truck, User, Clock, CheckCircle, XCircle, Search } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
+import LocationPickerModal from './LocationPickerModal';
 
 const TripDispatcher = () => {
     const { isAuthenticated } = useAuthStore();
@@ -23,6 +24,7 @@ const TripDispatcher = () => {
         estimatedFuelCost: ''
     });
     const [formError, setFormError] = useState('');
+    const [mapModalType, setMapModalType] = useState(null); // 'origin' | 'destination' | null
 
     const mainContentRef = useRef(null);
     const formRef = useRef(null);
@@ -113,7 +115,7 @@ const TripDispatcher = () => {
                     <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
 
                         {/* Dispatch Form (Left Panel) */}
-                        <div className="xl:col-span-1 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] relative overflow-hidden" ref={formRef}>
+                        <div className="xl:col-span-1 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] relative overflow-hidden flex flex-col" ref={formRef}>
                             {/* Accent Glow */}
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00ced1] to-indigo-500"></div>
                             <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#00ced1]/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -157,12 +159,22 @@ const TripDispatcher = () => {
 
                                 <div className="space-y-1.5 group">
                                     <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors"><MapPin size={14} /> Origin Address</label>
-                                    <input type="text" required value={formData.origin} onChange={e => setFormData({ ...formData, origin: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all shadow-inner" placeholder="e.g. Mumbai" />
+                                    <div className="flex gap-2">
+                                        <input type="text" required value={formData.origin} onChange={e => setFormData({ ...formData, origin: e.target.value })} className="flex-1 px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all shadow-inner" placeholder="e.g. Mumbai" />
+                                        <button type="button" onClick={() => setMapModalType('origin')} className="px-4 bg-white/5 hover:bg-[#00ced1]/20 text-slate-300 hover:text-[#00ced1] rounded-[1.2rem] border border-white/10 hover:border-[#00ced1]/50 transition-all flex items-center justify-center shrink-0 shadow-sm" title="Pick from Map">
+                                            <MapPin size={18} />
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-1.5 group">
                                     <label className="text-[10px] font-bold text-white/50 uppercase tracking-widest ml-1 flex items-center gap-2 group-focus-within:text-[#00ced1] transition-colors"><MapPin size={14} /> Destination</label>
-                                    <input type="text" required value={formData.destination} onChange={e => setFormData({ ...formData, destination: e.target.value })} className="w-full px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all shadow-inner" placeholder="e.g. Pune" />
+                                    <div className="flex gap-2">
+                                        <input type="text" required value={formData.destination} onChange={e => setFormData({ ...formData, destination: e.target.value })} className="flex-1 px-4 py-3 rounded-[1.2rem] bg-black/20 backdrop-blur-xl border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:border-[#00ced1]/50 focus:bg-black/30 text-sm transition-all shadow-inner" placeholder="e.g. Pune" />
+                                        <button type="button" onClick={() => setMapModalType('destination')} className="px-4 bg-white/5 hover:bg-[#00ced1]/20 text-slate-300 hover:text-[#00ced1] rounded-[1.2rem] border border-white/10 hover:border-[#00ced1]/50 transition-all flex items-center justify-center shrink-0 shadow-sm" title="Pick from Map">
+                                            <MapPin size={18} />
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-1.5 group">
@@ -235,8 +247,16 @@ const TripDispatcher = () => {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-5 text-slate-300 font-bold">{trip.origin || 'HQ'}</td>
-                                                    <td className="px-6 py-5 text-slate-300 font-bold">{trip.destination}</td>
+                                                    <td className="px-6 py-5 text-slate-300 font-bold">
+                                                        <div className="truncate w-24 sm:w-32 md:w-48 lg:w-64" title={trip.origin || 'HQ'}>
+                                                            {trip.origin || 'HQ'}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-5 text-slate-300 font-bold">
+                                                        <div className="truncate w-24 sm:w-32 md:w-48 lg:w-64" title={trip.destination}>
+                                                            {trip.destination}
+                                                        </div>
+                                                    </td>
                                                     <td className="px-6 py-5 text-right">
                                                         <div className="flex items-center justify-end gap-4">
                                                             <span className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border backdrop-blur-md shadow-sm ${trip.status === 'Dispatched' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
@@ -268,6 +288,18 @@ const TripDispatcher = () => {
                     </div>
                 </div>
             </main>
+
+            <LocationPickerModal
+                isOpen={mapModalType !== null}
+                onClose={() => setMapModalType(null)}
+                title={mapModalType === 'origin' ? "Select Origin Address" : "Select Destination Address"}
+                onConfirm={(address) => {
+                    setFormData(prev => ({
+                        ...prev,
+                        [mapModalType]: address
+                    }));
+                }}
+            />
         </div>
     );
 };

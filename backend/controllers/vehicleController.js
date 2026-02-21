@@ -64,3 +64,23 @@ export const updateVehicle = async (req, res) => {
         res.status(500).json({ message: 'Failed to update vehicle', error: error.message });
     }
 };
+
+// @desc    Delete a vehicle
+// @route   DELETE /api/vehicles/:id
+// @access  Private (Manager)
+export const deleteVehicle = async (req, res) => {
+    try {
+        const vehicle = await Vehicle.findById(req.params.id);
+        if (vehicle) {
+            if (vehicle.status !== 'Available') {
+                return res.status(400).json({ message: 'Only vehicles with "Available" status can be deleted.' });
+            }
+            await vehicle.deleteOne();
+            res.json({ message: 'Vehicle removed' });
+        } else {
+            res.status(404).json({ message: 'Vehicle not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to delete vehicle', error: error.message });
+    }
+};

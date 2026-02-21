@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
 import Sidebar from './Sidebar';
+import MagicContainer, { MagicCard } from './MagicBento';
 import { Download, Droplet, TrendingUp, Activity, FileText } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ScatterChart, Scatter, ZAxis, Cell, Legend, ComposedChart } from 'recharts';
 import ExpenseDonutChart from './ExpenseDonutChart';
 const Analytics = () => {
     const { isAuthenticated } = useAuthStore();
@@ -108,10 +109,10 @@ const Analytics = () => {
                     </div>
 
                     {/* KPI Widgets */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" ref={widgetsRef}>
+                    <MagicContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" ref={widgetsRef} glowColor="0, 206, 209">
 
                         {/* Total Fuel Cost */}
-                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]">
+                        <MagicCard className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]" enableStars={true}>
                             <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
                                 <Droplet size={100} className="text-rose-400" />
@@ -124,10 +125,10 @@ const Analytics = () => {
                                 <h3 className="text-[2.5rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)] mb-1">₹{data.kpis.totalFuelCost.toLocaleString()}</h3>
                                 <p className="text-sm font-semibold text-white/60 tracking-wider">Total Fuel Cost</p>
                             </div>
-                        </div>
+                        </MagicCard>
 
                         {/* Fleet ROI */}
-                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]">
+                        <MagicCard className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]" enableStars={true}>
                             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
                                 <TrendingUp size={100} className="text-emerald-400" />
@@ -140,10 +141,10 @@ const Analytics = () => {
                                 <h3 className="text-[2.5rem] leading-none font-medium text-emerald-400 tracking-tight drop-shadow-[0_2px_15px_rgba(52,211,153,0.3)] mb-1">+{data.kpis.fleetROI}%</h3>
                                 <p className="text-sm font-semibold text-white/60 tracking-wider">Fleet ROI</p>
                             </div>
-                        </div>
+                        </MagicCard>
 
                         {/* Utilization Rate */}
-                        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]">
+                        <MagicCard className="p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col justify-between min-h-[160px]" enableStars={true}>
                             <div className="absolute inset-0 bg-gradient-to-br from-[#00ced1]/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none z-0"></div>
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-2 translate-x-2">
                                 <Activity size={100} className="text-[#00ced1]" />
@@ -156,23 +157,97 @@ const Analytics = () => {
                                 <h3 className="text-[2.5rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)] mb-1">{data.kpis.utilizationRate}%</h3>
                                 <p className="text-sm font-semibold text-white/60 tracking-wider">Utilization Rate</p>
                             </div>
-                        </div>
+                        </MagicCard>
 
-                    </div>
+                    </MagicContainer>
 
                     {/* Visual Charts Area */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8" ref={chartsRef}>
 
-                        {/* Expense Breakdown Donut */}
-                        <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
-                            <h3 className="text-lg font-bold text-white mb-2 text-center drop-shadow-sm">Expense Distribution</h3>
+                        {/* A. Revenue vs Expense Trend */}
+                        <div className="lg:col-span-2 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[400px]">
+                            <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm">Revenue vs Expense Trend</h3>
+                            <div className="flex-1 w-full relative">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart data={data.monthlySummary} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                        <XAxis dataKey="month" stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                        <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                        <Tooltip contentStyle={{ backgroundColor: 'rgba(11, 17, 32, 0.8)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }} />
+                                        <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
+                                        <Line type="monotone" dataKey="revenue" name="Revenue" stroke="#00ced1" strokeWidth={3} dot={false} activeDot={{ r: 6, strokeWidth: 0 }} />
+                                        <Line type="monotone" dataKey="fuelCost" name="Fuel Cost" stroke="#f43f5e" strokeWidth={3} dot={false} activeDot={{ r: 6, strokeWidth: 0 }} />
+                                        <Line type="monotone" dataKey="maintenance" name="Maintenance" stroke="#fbbf24" strokeWidth={3} dot={false} activeDot={{ r: 6, strokeWidth: 0 }} />
+                                        <Line type="monotone" dataKey="netProfit" name="Net Profit" stroke="#34d399" strokeWidth={3} dot={false} activeDot={{ r: 6, strokeWidth: 0 }} />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        {/* B. Cost Breakdown Pie Chart */}
+                        <div className="lg:col-span-1 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[400px]">
+                            <h3 className="text-lg font-bold text-white mb-2 text-center drop-shadow-sm">Cost Breakdown</h3>
                             <div className="flex-1 w-full relative flex items-center justify-center -mt-4">
                                 <ExpenseDonutChart breakdown={data.charts.expenseBreakdown} />
                             </div>
                         </div>
 
-                        {/* Fuel Efficiency Trend */}
-                        <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
+                        {/* C. Vehicle Utilization Heatmap */}
+
+
+                        {/* D. Trip Completion Funnel */}
+
+                        {/* E. Downtime Chart (Days Lost) */}
+                        <div className="lg:col-span-3 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
+                            <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm">Total Maintenance Downtime (Days Lost)</h3>
+                            <div className="flex-1 w-full relative">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={data.charts.downtimeChart} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                        <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                        <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: 'rgba(11, 17, 32, 0.8)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
+                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                        />
+                                        <Bar dataKey="daysLost" name="Est. Days Lost" fill="#fbbf24" radius={[4, 4, 0, 0]} barSize={40} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        {/* H. Vehicle Final ROI */}
+                        <div className="lg:col-span-3 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[400px]">
+                            <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm flex justify-between items-center">
+                                <span>Vehicle Final ROI <span className="text-xs text-slate-400 font-normal ml-2">(Total Cost vs Revenue)</span></span>
+                                <div className="flex gap-4 text-xs font-medium">
+                                    <div className="flex items-center gap-1.5"><div className="w-3 h-3 bg-[#f43f5e] rounded-sm"></div>Total Cost</div>
+                                    <div className="flex items-center gap-1.5"><div className="w-3 h-3 bg-[#34d399] rounded-sm"></div>Revenue</div>
+                                </div>
+                            </h3>
+                            <div className="flex-1 w-full relative">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <ComposedChart data={data.charts.vehicleROI} margin={{ top: 10, right: 20, bottom: 20, left: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                        <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                        <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: 'rgba(11, 17, 32, 0.9)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}
+                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                            formatter={(value, name) => [`₹${value.toLocaleString()}`, name === 'totalCost' ? 'Total Cost' : 'Revenue']}
+                                        />
+                                        <Bar dataKey="totalCost" name="totalCost" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={30} />
+                                        <Bar dataKey="revenue" name="revenue" fill="#34d399" radius={[4, 4, 0, 0]} barSize={30} />
+                                    </ComposedChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                        {/* F. Fuel Efficiency Trend */}
+                        <div className="lg:col-span-2 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
                             <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm">Fuel Efficiency Trend (km/L)</h3>
                             <div className="flex-1 w-full relative">
                                 <ResponsiveContainer width="100%" height="100%">
@@ -190,8 +265,8 @@ const Analytics = () => {
                             </div>
                         </div>
 
-                        {/* Top 5 Costliest Vehicles */}
-                        <div className="bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
+                        {/* G. Top 5 Costliest Vehicles */}
+                        <div className="lg:col-span-1 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-[40px] rounded-[2rem] border border-white/[0.08] border-b-black/50 border-r-black/50 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col h-[350px]">
                             <h3 className="text-lg font-bold text-white mb-6 drop-shadow-sm">Top 5 Costliest Vehicles</h3>
                             <div className="flex-1 w-full relative">
                                 <ResponsiveContainer width="100%" height="100%">
@@ -209,7 +284,6 @@ const Analytics = () => {
                                 </ResponsiveContainer>
                             </div>
                         </div>
-
                     </div>
 
                     {/* Financial Summary Table */}

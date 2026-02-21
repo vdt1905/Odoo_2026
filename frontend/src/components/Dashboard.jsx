@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import axios from 'axios';
 import useAuthStore from '../store/useAuthStore';
 import Sidebar from './Sidebar';
+import MagicContainer, { MagicCard } from './MagicBento';
 import { Activity, AlertTriangle, Package, Truck, Filter, TrendingUp, Search, Plus, Send } from 'lucide-react';
 
 const Dashboard = () => {
@@ -70,7 +71,7 @@ const Dashboard = () => {
     if (!user) return null;
 
     const KpiCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
-        <div className={`p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)]`}>
+        <MagicCard className={`p-6 rounded-[2rem] bg-gradient-to-br from-white/[0.05] to-transparent backdrop-blur-[40px] border border-white/[0.08] border-b-black/50 border-r-black/50 shrink-0 relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 shadow-[0_12px_40px_rgba(0,0,0,0.4)]`} enableStars={true}>
             <div className={`absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 ${gradientClass}`} style={{ zIndex: 0 }}></div>
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-[1.15] group-hover:opacity-20 transition-all duration-700 z-0 -translate-y-4 translate-x-4">
                 <Icon size={120} className={colorClass} />
@@ -86,7 +87,7 @@ const Dashboard = () => {
                     <h2 className="text-[2.75rem] leading-none font-medium text-white tracking-tight drop-shadow-[0_2px_15px_rgba(255,255,255,0.15)]">{value}</h2>
                 </div>
             </div>
-        </div>
+        </MagicCard>
     );
 
     return (
@@ -119,7 +120,7 @@ const Dashboard = () => {
                     ) : (
                         <>
                             {/* KPI Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" ref={cardsRef}>
+                            <MagicContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" ref={cardsRef} glowColor="0, 206, 209">
                                 <KpiCard
                                     title="Active Fleet"
                                     value={stats?.activeFleet || 0}
@@ -148,7 +149,7 @@ const Dashboard = () => {
                                     colorClass="text-amber-400"
                                     gradientClass="bg-gradient-to-br from-amber-500/10 to-transparent"
                                 />
-                            </div>
+                            </MagicContainer>
 
                             {/* Table Controls */}
                             <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
 import Sidebar from './Sidebar';
+import MagicBento from './MagicBento';
 import { Shield, ShieldAlert, Award, AlertTriangle, AlertOctagon, UserCheck, X } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 
@@ -285,6 +286,7 @@ const SafetyProfiles = () => {
                     </div>
 
                 </div>
+                <MagicBento />
             </main>
 
             {/* Add Driver Modal */}

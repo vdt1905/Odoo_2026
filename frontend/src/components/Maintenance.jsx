@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import gsap from 'gsap';
 import Sidebar from './Sidebar';
+import MagicBento from './MagicBento';
 import { PenTool, Calendar, Wrench, CheckCircle, Clock, Search, Plus, X, Settings2 } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 
@@ -226,6 +227,7 @@ const Maintenance = () => {
                     </div>
 
                 </div>
+                <MagicBento />
             </main>
 
             {/* Add Service Modal */}

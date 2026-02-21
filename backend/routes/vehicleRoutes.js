@@ -1,5 +1,5 @@
 import express from 'express';
-import { getVehicles, addVehicle, updateVehicle } from '../controllers/vehicleController.js';
+import { getVehicles, addVehicle, updateVehicle, deleteVehicle } from '../controllers/vehicleController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -27,6 +27,7 @@ router.route('/')
     .post(protect, managerOnly, addVehicle);
 
 router.route('/:id')
-    .put(protect, managerOnly, updateVehicle);
+    .put(protect, managerOnly, updateVehicle)
+    .delete(protect, managerOnly, deleteVehicle);
 
 export default router;

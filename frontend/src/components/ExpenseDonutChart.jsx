@@ -34,8 +34,8 @@ const ExpenseDonutChart = ({ breakdown }) => {
         const colorMap = {
             'Fuel': '#38bdf8',       // sky-400
             'Maintenance': '#fbbf24',// amber-400
-            'Tolls': '#c084fc',      // purple-400
-            'Insurance': '#34d399',  // emerald-400
+            'Misc': '#94a3b8',       // slate-400
+            'Driver Payments': '#f43f5e', // rose-500
             'Other': '#94a3b8'       // slate-400
         };
 

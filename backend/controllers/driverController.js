@@ -72,11 +72,11 @@ export const updateDriver = async (req, res) => {
         const driver = await Driver.findById(req.params.id);
 
         if (driver) {
-            driver.name = name || driver.name;
+            if (name) driver.name = name;
             if (licenseNumber) driver.licenseNumber = licenseNumber;
-            driver.licenseExpiry = licenseExpiry || driver.licenseExpiry;
-            driver.safetyScore = safetyScore !== undefined ? safetyScore : driver.safetyScore;
-            driver.complaintsCount = complaintsCount !== undefined ? complaintsCount : driver.complaintsCount;
+            if (licenseExpiry) driver.licenseExpiry = licenseExpiry;
+            if (safetyScore !== undefined) driver.safetyScore = safetyScore;
+            if (complaintsCount !== undefined) driver.complaintsCount = complaintsCount;
 
             const today = new Date();
             today.setHours(0, 0, 0, 0);
@@ -86,14 +86,24 @@ export const updateDriver = async (req, res) => {
                 driver.status = 'LOCKED';
             } else if (status) {
                 driver.status = status;
-                // If status was strictly passed as LOCKED but license is not expired, revert it to OFF_DUTY or accept the new valid status.
-                if (driver.status === 'LOCKED') {
-                    driver.status = 'OFF_DUTY';
-                }
+            }
+
+            // Normalize old DB string states to strict enums
+            const enumMap = {
+                'On Duty': 'ON_DUTY',
+                'Off Duty': 'OFF_DUTY',
+                'Break': 'BREAK',
+                'Suspended': 'SUSPENDED',
+                'Locked': 'LOCKED'
+            };
+            if (enumMap[driver.status]) {
+                driver.status = enumMap[driver.status];
             }
 
             // Recalculate strict DB boolean
             driver.isAvailableForDispatch = (driver.status === 'ON_DUTY' && !isExpired);
+
+            console.log("DRIVER BEFORE SAVE:", driver);
 
             const updatedDriver = await driver.save();
             res.json(updatedDriver);
@@ -101,6 +111,7 @@ export const updateDriver = async (req, res) => {
             res.status(404).json({ message: 'Driver not found' });
         }
     } catch (error) {
+        console.error("DRIVER UPDATE ERROR:", error);
         if (error.code === 11000) {
             return res.status(400).json({ message: 'License Number already exists.' });
         }
